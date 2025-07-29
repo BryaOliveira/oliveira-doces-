@@ -1,81 +1,134 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Doces Oliveira</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #fff8f0;
-        }
-        header {
-            text-align: center;
-            position: relative;
-        }
-        header img.logo {
-            width: 100%;
-            max-height: 250px;
-            object-fit: cover;
-        }
-        .social-icons {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-        .social-icons img {
-            width: 40px;
-            height: 40px;
-            margin-left: 10px;
-        }
-        main {
-            padding: 20px;
-            text-align: center;
-        }
-        .product {
-            margin: 20px;
-            display: inline-block;
-            width: 250px;
-            vertical-align: top;
-        }
-        .product img {
-            width: 100%;
-            border-radius: 12px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doces Família Oliveira</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff8f0;
+      color: #3d2b1f;
+    }
+
+    header {
+      background-color: #fff;
+      text-align: center;
+      padding: 0;
+      position: relative;
+    }
+
+    header img.logo {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+    }
+
+    .social-buttons {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-buttons a img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .intro {
+      text-align: center;
+      padding: 30px 20px;
+      background-color: #fff3e0;
+    }
+
+    .intro h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .intro p {
+      font-size: 1.1em;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 40px 20px;
+    }
+
+    .product {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .product:hover {
+      transform: scale(1.02);
+    }
+
+    .product img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .product h3 {
+      margin: 15px 0 5px;
+      font-size: 1.3em;
+    }
+
+    .product p {
+      padding: 0 15px 20px;
+      font-size: 1em;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #fff3e0;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 600px) {
+      .social-buttons {
+        top: 10px;
+        right: 10px;
+      }
+
+      .social-buttons a img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <img src="logo.png.jpeg" alt="Logo Oliveira" class="logo">
-        <div class="social-icons">
-            <a href="https://wa.me/seunumerodetelefone" target="_blank">
-                <img src="whatsapp_icon.png" alt="WhatsApp" />
-            </a>
-            <a href="https://www.instagram.com/seuusuario" target="_blank">
-                <img src="instagram_icon.png" alt="Instagram" />
-            </a>
-        </div>
-    </header>
-    <main>
-        <div class="product">
-            <img src="mousse_maracuja.png.jpeg" alt="Mousse de Maracujá" />
-            <p>Mousse de Maracujá</p>
-        </div>
-        <div class="product">
-            <img src="bolo_brigadeiro.png.jpeg" alt="Bolo de Brigadeiro" />
-            <p>Bolo de Brigadeiro</p>
-        </div>
-        <div class="product">
-            <img src="bolo_mix.png.jpeg" alt="Bolo Mix" />
-            <p>Bolo Mix</p>
-        </div>
-        <div class="product">
-            <img src="doce_pacoca.png.jpeg" alt="Doce de Paçoca" />
-            <p>Doce de Paçoca</p>
-        </div>
-    </main>
-</body>
-</html>
+
+<header>
+  <img src="logo.png.jpeg" alt="Doces Família Oliveira" class="logo" />
+  <div class="social-buttons">
+    <a href="https://wa.me/5519997848752" target="_blank">
+      <img src="whatsapp-icon.png" alt="WhatsApp" />
+    </a>
+    <a href="https://www.instagram.com/oliveira__doces.gourmet" target="_blank">
+      <img src="instagram-icon.png" alt="Instagram" />
+    </a>
+  </div>
+</header>
+
+<section class="intro">
+  <h1>Bem-vindo à Doces Família Oliveira!</h1>
+  <p>Um pedacinho de carinho em cada pote. Produzidos com amor, tradição e sabor irresistível. Conheça nossos doces e sinta o gostinho de casa!</p>
+</section>
+
+<section class="products">
+  <div class="product">
+    <im
