@@ -27,17 +27,34 @@
     }
 
     .social-buttons {
-      position: absolute;
-      top: 20px;
-      right: 20px;
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+      gap: 15px;
+      flex-wrap: wrap;
     }
 
     .social-buttons a img {
       width: 40px;
       height: 40px;
+    }
+
+    .social-buttons a button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: #0f0f0f;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .social-buttons a button img {
+      height: 20px;
     }
 
     .intro {
@@ -87,8 +104,15 @@
     }
 
     .product p {
-      padding: 0 15px 20px;
+      padding: 0 15px 10px;
       font-size: 1em;
+    }
+
+    .product .price {
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-bottom: 20px;
+      color: #8B4513;
     }
 
     footer {
@@ -99,11 +123,6 @@
     }
 
     @media (max-width: 600px) {
-      .social-buttons {
-        top: 10px;
-        right: 10px;
-      }
-
       .social-buttons a img {
         width: 30px;
         height: 30px;
@@ -117,25 +136,14 @@
   <img src="logo.png.jpeg" alt="Doces Família Oliveira" class="logo" />
   <div class="social-buttons">
     <a href="https://wa.me/5519997848752" target="_blank">
-      <img src="whatsapp-icon.png" alt="WhatsApp" />
+      <img src="whatsapp_icon.png" alt="WhatsApp" />
     </a>
     <a href="https://www.instagram.com/oliveira__doces.gourmet" target="_blank">
-      <img src="instagram-icon.png" alt="Instagram" />
+      <img src="instagram_icon.png" alt="Instagram" />
     </a>
-    <a href="https://linknabio.gg/bryan-oliveira27" target="_blank" style="text-decoration: none;">
-      <button style="
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background-color: #0f0f0f;
-        color: #ffffff;
-        border: none;
-        border-radius: 8px;
-        padding: 10px 15px;
-        font-size: 14px;
-        cursor: pointer;
-      ">
-        <img src="Logo_InfinitePay.svg.png" alt="InfinitePay" style="height: 20px;">
+    <a href="https://linknabio.gg/bryan-oliveira27" target="_blank">
+      <button>
+        <img src="Logo_InfinitePay.svg.png" alt="InfinitePay">
         Pagar com InfinitePay
       </button>
     </a>
@@ -152,21 +160,25 @@
     <img src="doce_pacoca.png.jpeg" alt="Doce de Leite com Paçoca" />
     <h3>Doce de Leite com Paçoca</h3>
     <p>Uma combinação perfeita do sabor cremoso do doce de leite com o toque crocante da paçoca. Um clássico que derrete na boca.</p>
+    <div class="price">R$ 10,90</div>
   </div>
   <div class="product">
     <img src="mousse_maracuja.png.jpeg" alt="Mousse de Maracujá" />
     <h3>Mousse de Maracujá Cremoso</h3>
     <p>Leve, refrescante e incrivelmente saboroso. O mousse perfeito para quem ama uma sobremesa com sabor tropical.</p>
+    <div class="price">R$ 12,00</div>
   </div>
   <div class="product">
     <img src="bolo_brigadeiro.png.jpeg" alt="Bolo de Brigadeiro" />
     <h3>Bolo de Brigadeiro</h3>
     <p>Camadas fofinhas de bolo com brigadeiro artesanal. Uma explosão de chocolate que conquista qualquer paladar.</p>
+    <div class="price">R$ 12,00</div>
   </div>
   <div class="product">
     <img src="bolo_mix.png.jpeg" alt="Bolo Brigadeiro com Maracujá" />
     <h3>Bolo de Brigadeiro com Mousse de Maracujá</h3>
     <p>Uma combinação surpreendente de sabores que se completam: o doce do brigadeiro com o azedinho do maracujá.</p>
+    <div class="price">R$ 12,00</div>
   </div>
 </section>
 
