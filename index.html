@@ -288,17 +288,8 @@ function toggleCarrinho() {
   if (cartContainer.style.display === 'block') {
     cartContainer.style.display = 'none';
   } else {
-    if (carrinho.length === 0) {
-      cartItemsDiv.innerHTML = `
-        <div style="text-align: center; font-size: 1.1em; color: #a33;">
-          Seu carrinho ainda está vazio 😢
-        </div>
-      `;
-      cartTotalDiv.textContent = '';
-      customerForm.style.display = 'none';
-      paymentLinkDiv.innerHTML = '';
-    }
     cartContainer.style.display = 'block';
+    atualizarCarrinho(); // Atualiza para mostrar mensagem se vazio
   }
 }
 
@@ -312,13 +303,16 @@ function mostrarMensagemAdicionado() {
 }
 
 function atualizarCarrinho() {
+  cartItemsDiv.innerHTML = '';
+  paymentLinkDiv.innerHTML = '';
+
   if (carrinho.length === 0) {
-    cartContainer.style.display = 'none';
-    paymentLinkDiv.innerHTML = '';
+    cartItemsDiv.innerHTML = '<p>Seu carrinho ainda está vazio 😢</p>';
+    cartTotalDiv.textContent = 'Total: R$ 0.00';
+    customerForm.style.display = 'none';
     return;
   }
-  cartContainer.style.display = 'block';
-  cartItemsDiv.innerHTML = '';
+
   let total = 0;
   carrinho.forEach((item, idx) => {
     const itemTotal = item.preco * item.quantidade;
@@ -359,8 +353,8 @@ function adicionarProduto(idx) {
   } else {
     carrinho.push({ nome: produto.nome, preco: produto.preco, quantidade: 1 });
   }
-  atualizarCarrinho();
   mostrarMensagemAdicionado();
+  atualizarCarrinho();
   cartContainer.style.display = 'block';
 }
 
