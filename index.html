@@ -5,105 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Doces Família Oliveira - Compre Aqui</title>
 <style>
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0; padding: 20px;
-    background: #fff8f0;
-    color: #3d2b1f;
-  }
-  header {
+  /* ... (todo seu CSS original permanece inalterado) ... */
+  #mensagemCarrinhoVazio {
     text-align: center;
-    margin-bottom: 15px;
-  }
-  header img.logo {
-    width: 100%;
-    max-height: 280px;
-    object-fit: cover;
-    margin-bottom: 8px;
-  }
-  .social-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 25px;
-  }
-  .social-buttons a img {
-    width: 40px; height: 40px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-  .social-buttons a img:hover {
-    transform: scale(1.1);
-  }
-  .products {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-  }
-  .product {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    width: 220px;
-    padding: 10px;
-    cursor: pointer;
-    transition: box-shadow 0.3s ease;
-    text-align: center;
-  }
-  .product:hover {
-    box-shadow: 0 0 15px #8B4513;
-  }
-  .product img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 8px;
-  }
-  .product h3 {
-    margin: 0 0 8px;
-    font-size: 1.2em;
-  }
-  .product p {
-    font-size: 0.9em;
-    height: 50px;
-    overflow: hidden;
-    margin-bottom: 10px;
-  }
-  .product .price {
+    color: #a33;
     font-weight: bold;
-    color: #8B4513;
-    font-size: 1.1em;
-  }
-  #msgAdicionado {
+    margin-top: 10px;
     display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: #dff0d8;
-    color: #3c763d;
-    text-align: center;
-    padding: 12px;
-    font-weight: bold;
-    font-size: 1.1em;
-    z-index: 1000;
-  }
-  #botaoCarrinho {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #8B4513;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 55px;
-    height: 55px;
-    font-size: 24px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    cursor: pointer;
-    z-index: 1000;
   }
 </style>
 </head>
@@ -124,53 +32,62 @@
 <h1>Clique no seu pote desejado e adicione ao carrinho ❤️</h1>
 <div class="products" id="products"></div>
 
+<div id="cartContainer">
+  <div id="cartHeader">
+    <img src="cart_icon.png.PNG" alt="Carrinho" />
+    <h2>Seu Carrinho</h2>
+  </div>
+  <div id="cartItems"></div>
+  <div id="mensagemCarrinhoVazio">Você ainda não adicionou nenhum item ao seu carrinho 😢</div>
+  <div id="cartTotal">Total: R$ 0.00</div>
+
+  <form id="customerForm">
+    <h2>Dados para entrega</h2>
+    <input type="text" id="nome" placeholder="Nome completo" required />
+    <input type="tel" id="telefone" placeholder="WhatsApp (ex: 5511999999999)" required pattern="[0-9]{10,15}" />
+    <textarea id="endereco" placeholder="Endereço de entrega" required></textarea>
+    <button type="submit">Finalizar e Gerar Link de Pagamento</button>
+  </form>
+  <div id="paymentLink"></div>
+</div>
+
 <!-- Botão flutuante do carrinho -->
 <button id="botaoCarrinho" onclick="toggleCarrinho()" aria-label="Abrir Carrinho">
   🛒
 </button>
 
 <script>
-const produtos = [
-  { nome: "Doce de Leite com Paçoca", preco: 10.90, descricao: "Sabor cremoso do doce de leite com toque crocante da paçoca.", img: "doce_pacoca.png.jpeg" },
-  { nome: "Mousse de Maracujá Cremoso", preco: 12.00, descricao: "Sobremesa leve, refrescante e saborosa.", img: "mousse_maracuja.png.jpeg" },
-  { nome: "Bolo de Brigadeiro", preco: 12.00, descricao: "Camadas fofinhas de bolo com brigadeiro artesanal.", img: "bolo_brigadeiro.png.jpeg" },
-  { nome: "Bolo de Brigadeiro com Mousse de Maracujá", preco: 12.00, descricao: "Combinação surpreendente de brigadeiro com mousse de maracujá.", img: "bolo_mix.png.jpeg" }
-];
-
-const productsDiv = document.getElementById('products');
-const msgAdicionado = document.getElementById('msgAdicionado');
-const somAdicionado = document.getElementById('somAdicionado');
-
-function toggleCarrinho() {
-  alert("Funcionalidade de carrinho futura!");
+// ...(todo seu script original até a função atualizarCarrinho)
+function atualizarCarrinho() {
+  const msgVazio = document.getElementById('mensagemCarrinhoVazio');
+  if (carrinho.length === 0) {
+    cartItemsDiv.innerHTML = '';
+    msgVazio.style.display = 'block';
+    cartTotalDiv.textContent = 'Total: R$ 0.00';
+    customerForm.style.display = 'none';
+    return;
+  } else {
+    msgVazio.style.display = 'none';
+  }
+  cartItemsDiv.innerHTML = '';
+  let total = 0;
+  carrinho.forEach((item, idx) => {
+    const itemTotal = item.preco * item.quantidade;
+    total += itemTotal;
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.innerHTML = `
+      <span>${item.quantidade}x ${item.nome} - R$ ${itemTotal.toFixed(2)}</span>
+      <button onclick="removerItem(${idx})" class="remove">X</button>
+      <button onclick="alterarQuantidade(${idx}, -1)">-</button>
+      <button onclick="alterarQuantidade(${idx}, 1)">+</button>
+    `;
+    cartItemsDiv.appendChild(div);
+  });
+  cartTotalDiv.textContent = `Total: R$ ${total.toFixed(2)}`;
+  customerForm.style.display = 'block';
 }
-
-function mostrarMensagemAdicionado() {
-  msgAdicionado.style.display = 'block';
-  somAdicionado.currentTime = 0;
-  somAdicionado.play();
-  setTimeout(() => {
-    msgAdicionado.style.display = 'none';
-  }, 2000);
-}
-
-function adicionarProduto(idx) {
-  mostrarMensagemAdicionado();
-}
-
-produtos.forEach((produto, idx) => {
-  const div = document.createElement('div');
-  div.className = 'product';
-  div.title = produto.descricao;
-  div.innerHTML = `
-    <img src="${produto.img}" alt="${produto.nome}" />
-    <h3>${produto.nome}</h3>
-    <p>${produto.descricao}</p>
-    <div class="price">R$ ${produto.preco.toFixed(2)}</div>
-  `;
-  div.onclick = () => adicionarProduto(idx);
-  productsDiv.appendChild(div);
-});
+// ...(restante do seu script permanece igual)
 </script>
 </body>
 </html>
