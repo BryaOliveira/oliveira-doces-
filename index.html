@@ -76,6 +76,8 @@
     color: #8B4513;
     font-size: 1.1em;
   }
+
+  /* Container do carrinho no canto superior direito */
   #cartContainer {
     position: fixed;
     top: 80px;
@@ -175,6 +177,8 @@
     text-align: center;
     color: #2a662a;
   }
+
+  /* Mensagem de item adicionado */
   #msgAdicionado {
     display: none;
     position: fixed;
@@ -190,6 +194,26 @@
     border-radius: 8px;
     box-shadow: 0 0 10px #3c763daa;
   }
+
+  /* Mensagem carrinho vazio */
+  #msgVazio {
+    display: none;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: #fff3e0;
+    color: #8B4513;
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 999;
+    max-width: 320px;
+    text-align: center;
+  }
+
+  /* Botão flutuante do carrinho com imagem */
   #botaoCarrinho {
     position: fixed;
     top: 20px;
@@ -207,6 +231,7 @@
     height: 100%;
     object-fit: contain;
   }
+
   @media(max-width: 480px) {
     #cartContainer {
       position: static;
@@ -231,6 +256,8 @@
 <body>
 
 <div id="msgAdicionado">Item adicionado ao carrinho!</div>
+<div id="msgVazio">Seu carrinho está vazio 😢</div>
+
 <audio id="somAdicionado" src="https://www.soundjay.com/buttons/sounds/button-3.mp3" preload="auto"></audio>
 
 <header>
@@ -245,7 +272,7 @@
 <h1>Clique no seu pote desejado e adicione ao carrinho ❤️</h1>
 <div class="products" id="products"></div>
 
-<div id="cartContainer">
+<div id="cartContainer" aria-live="polite" aria-label="Conteúdo do carrinho">
   <div id="cartHeader">
     <img src="cart_icon.png.PNG" alt="Carrinho" />
     <h2>Seu Carrinho</h2>
@@ -253,7 +280,7 @@
   <div id="cartItems"></div>
   <div id="cartTotal">Total: R$ 0.00</div>
 
-  <form id="customerForm">
+  <form id="customerForm" aria-label="Formulário para dados de entrega">
     <h2>Dados para entrega</h2>
     <input type="text" id="nome" placeholder="Nome completo" required />
     <input type="tel" id="telefone" placeholder="WhatsApp (ex: 5511999999999)" required pattern="[0-9]{10,15}" />
@@ -276,7 +303,9 @@ const produtos = [
   { nome: "Bolo de Brigadeiro", preco: 12.00, descricao: "Camadas fofinhas de bolo com brigadeiro artesanal.", img: "bolo_brigadeiro.png.jpeg" },
   { nome: "Bolo de Brigadeiro com Mousse de Maracujá", preco: 12.00, descricao: "Combinação surpreendente de brigadeiro com mousse de maracujá.", img: "bolo_mix.png.jpeg" }
 ];
+
 let carrinho = [];
+
 const productsDiv = document.getElementById('products');
 const cartContainer = document.getElementById('cartContainer');
 const cartItemsDiv = document.getElementById('cartItems');
@@ -284,13 +313,26 @@ const cartTotalDiv = document.getElementById('cartTotal');
 const customerForm = document.getElementById('customerForm');
 const paymentLinkDiv = document.getElementById('paymentLink');
 const msgAdicionado = document.getElementById('msgAdicionado');
+const msgVazio = document.getElementById('msgVazio');
 const somAdicionado = document.getElementById('somAdicionado');
 
 function toggleCarrinho() {
   if (cartContainer.style.display === 'block') {
     cartContainer.style.display = 'none';
+    msgVazio.style.display = 'none';
   } else {
-    cartContainer.style.display = 'block';
+    if(carrinho.length === 0) {
+      // Mostrar mensagem carrinho vazio
+      msgVazio.style.display = 'block';
+      cartContainer.style.display = 'none';
+      // Esconder a mensagem após 3 segundos
+      setTimeout(() => {
+        msgVazio.style.display = 'none';
+      }, 3000);
+    } else {
+      msgVazio.style.display = 'none';
+      cartContainer.style.display = 'block';
+    }
   }
 }
 
@@ -304,14 +346,16 @@ function mostrarMensagemAdicionado() {
 }
 
 function atualizarCarrinho() {
+  cartItemsDiv.innerHTML = '';
+  paymentLinkDiv.innerHTML = '';
+  let total = 0;
+
   if (carrinho.length === 0) {
-    cartContainer.style.display = 'none';
-    paymentLinkDiv.innerHTML = '';
+    cartTotalDiv.textContent = 'Total: R$ 0.00';
+    customerForm.style.display = 'none';
     return;
   }
-  cartContainer.style.display = 'block';
-  cartItemsDiv.innerHTML = '';
-  let total = 0;
+
   carrinho.forEach((item, idx) => {
     const itemTotal = item.preco * item.quantidade;
     total += itemTotal;
@@ -319,12 +363,13 @@ function atualizarCarrinho() {
     div.className = 'cart-item';
     div.innerHTML = `
       <span>${item.quantidade}x ${item.nome} - R$ ${itemTotal.toFixed(2)}</span>
-      <button onclick="removerItem(${idx})" class="remove">X</button>
-      <button onclick="alterarQuantidade(${idx}, -1)">-</button>
-      <button onclick="alterarQuantidade(${idx}, 1)">+</button>
+      <button onclick="removerItem(${idx})" class="remove" aria-label="Remover item ${item.nome}">X</button>
+      <button onclick="alterarQuantidade(${idx}, -1)" aria-label="Diminuir quantidade de ${item.nome}">-</button>
+      <button onclick="alterarQuantidade(${idx}, 1)" aria-label="Aumentar quantidade de ${item.nome}">+</button>
     `;
     cartItemsDiv.appendChild(div);
   });
+
   cartTotalDiv.textContent = `Total: R$ ${total.toFixed(2)}`;
   customerForm.style.display = 'block';
 }
