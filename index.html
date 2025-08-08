@@ -77,7 +77,6 @@
     font-size: 1.1em;
   }
 
-  /* Container do carrinho no canto superior direito */
   #cartContainer {
     position: fixed;
     top: 80px;
@@ -178,7 +177,6 @@
     color: #2a662a;
   }
 
-  /* Mensagem de item adicionado */
   #msgAdicionado {
     display: none;
     position: fixed;
@@ -195,7 +193,6 @@
     box-shadow: 0 0 10px #3c763daa;
   }
 
-  /* Mensagem carrinho vazio */
   #msgVazio {
     display: none;
     position: fixed;
@@ -213,7 +210,6 @@
     text-align: center;
   }
 
-  /* Botão flutuante do carrinho com imagem */
   #botaoCarrinho {
     position: fixed;
     top: 20px;
@@ -255,7 +251,10 @@
 </head>
 <body>
 
-<div id="msgAdicionado">Item adicionado ao carrinho!</div>
+<div id="msgAdicionado">
+  Item adicionado ao carrinho!<br>
+  Role a página para baixo para localizar os itens do seu carrinho.
+</div>
 <div id="msgVazio">Seu carrinho está vazio 😢</div>
 
 <audio id="somAdicionado" src="https://www.soundjay.com/buttons/sounds/button-3.mp3" preload="auto"></audio>
@@ -274,7 +273,7 @@
 
 <div id="cartContainer" aria-live="polite" aria-label="Conteúdo do carrinho">
   <div id="cartHeader">
-    <img src="cart_icon.png.PNG" alt="Carrinho" />
+    <img src="oliveria_carrinho.png" alt="Carrinho" />
     <h2>Seu Carrinho</h2>
   </div>
   <div id="cartItems"></div>
@@ -290,9 +289,9 @@
   <div id="paymentLink"></div>
 </div>
 
-<!-- Botão flutuante do carrinho com imagem carrinho.png -->
+<!-- Botão flutuante do carrinho -->
 <button id="botaoCarrinho" onclick="toggleCarrinho()" aria-label="Abrir Carrinho">
-  <img src="carrinho.png" alt="Carrinho" />
+  <img src="oliveria_carrinho.png" alt="Carrinho" />
 </button>
 
 <script>
@@ -322,16 +321,13 @@ function toggleCarrinho() {
     msgVazio.style.display = 'none';
   } else {
     if(carrinho.length === 0) {
-      // Mostrar mensagem carrinho vazio
       msgVazio.style.display = 'block';
       cartContainer.style.display = 'none';
-      // Esconder a mensagem após 3 segundos
       setTimeout(() => {
         msgVazio.style.display = 'none';
       }, 3000);
     } else {
       msgVazio.style.display = 'none';
-      // Mostrar carrinho COMPLETO com itens, formulário e pagamento
       atualizarCarrinho();
       cartContainer.style.display = 'block';
     }
@@ -344,7 +340,7 @@ function mostrarMensagemAdicionado() {
   somAdicionado.play();
   setTimeout(() => {
     msgAdicionado.style.display = 'none';
-  }, 2000);
+  }, 3000);
 }
 
 function atualizarCarrinho() {
