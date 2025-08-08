@@ -35,7 +35,6 @@
   .social-buttons a img:hover {
     transform: scale(1.1);
   }
-
   .products {
     display: flex;
     flex-wrap: wrap;
@@ -77,7 +76,6 @@
     color: #8B4513;
     font-size: 1.1em;
   }
-
   #cartContainer {
     position: fixed;
     top: 80px;
@@ -130,7 +128,6 @@
   .cart-item button.remove {
     background: #a33;
   }
-
   #cartTotal {
     font-weight: bold;
     font-size: 1.2em;
@@ -138,7 +135,6 @@
     color: #5a2a0c;
     text-align: right;
   }
-
   #customerForm {
     margin-top: 20px;
     background: #fff;
@@ -172,7 +168,6 @@
     cursor: pointer;
     width: 100%;
   }
-
   #paymentLink {
     max-width: 320px;
     margin: 20px auto;
@@ -180,7 +175,6 @@
     text-align: center;
     color: #2a662a;
   }
-
   #msgAdicionado {
     display: none;
     position: fixed;
@@ -195,7 +189,21 @@
     font-size: 1.1em;
     z-index: 1000;
   }
-
+  #botaoCarrinho {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #8B4513;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    font-size: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 1000;
+  }
   @media(max-width: 480px) {
     #cartContainer {
       position: static;
@@ -207,6 +215,13 @@
     }
     #customerForm {
       max-width: 100%;
+    }
+    #botaoCarrinho {
+      top: 15px;
+      right: 15px;
+      width: 50px;
+      height: 50px;
+      font-size: 22px;
     }
   }
 </style>
@@ -220,12 +235,8 @@
   <img src="logo.png.jpeg" alt="Doces Família Oliveira" class="logo" />
   <h1>Doces de Pote Família Oliveira 🌿</h1>
   <div class="social-buttons">
-    <a href="https://wa.me/5519997848752" target="_blank" aria-label="WhatsApp Loja">
-      <img src="whatsapp_icon.png" alt="WhatsApp Loja" />
-    </a>
-    <a href="https://www.instagram.com/oliveira__doces.gourmet" target="_blank" aria-label="Instagram Oliveira Doces">
-      <img src="instagram_icon.png" alt="Instagram Oliveira Doces" />
-    </a>
+    <a href="https://wa.me/5519997848752" target="_blank"><img src="whatsapp_icon.png" alt="WhatsApp Loja"></a>
+    <a href="https://www.instagram.com/oliveira__doces.gourmet" target="_blank"><img src="instagram_icon.png" alt="Instagram"></a>
   </div>
 </header>
 
@@ -243,159 +254,159 @@
   <form id="customerForm">
     <h2>Dados para entrega</h2>
     <input type="text" id="nome" placeholder="Nome completo" required />
-    <input type="tel" id="telefone" placeholder="WhatsApp (ex: 5511999999999)" required pattern="[0-9]{10,15}" title="Digite só números com DDD e código do país" />
-    <textarea id="endereco" placeholder="Endereço de entrega" rows="2" required></textarea>
+    <input type="tel" id="telefone" placeholder="WhatsApp (ex: 5511999999999)" required pattern="[0-9]{10,15}" />
+    <textarea id="endereco" placeholder="Endereço de entrega" required></textarea>
     <button type="submit">Finalizar e Gerar Link de Pagamento</button>
   </form>
   <div id="paymentLink"></div>
 </div>
 
+<!-- Botão flutuante do carrinho -->
+<button id="botaoCarrinho" onclick="toggleCarrinho()" aria-label="Abrir Carrinho">
+  🛒
+</button>
+
 <script>
-  const backendURL = 'https://oliveiradoces.infinityfreeapp.com/checkout.php';
+const backendURL = 'https://oliveiradoces.infinityfreeapp.com/checkout.php';
+const produtos = [
+  { nome: "Doce de Leite com Paçoca", preco: 10.90, descricao: "Sabor cremoso do doce de leite com toque crocante da paçoca.", img: "doce_pacoca.png.jpeg" },
+  { nome: "Mousse de Maracujá Cremoso", preco: 12.00, descricao: "Sobremesa leve, refrescante e saborosa.", img: "mousse_maracuja.png.jpeg" },
+  { nome: "Bolo de Brigadeiro", preco: 12.00, descricao: "Camadas fofinhas de bolo com brigadeiro artesanal.", img: "bolo_brigadeiro.png.jpeg" },
+  { nome: "Bolo de Brigadeiro com Mousse de Maracujá", preco: 12.00, descricao: "Combinação surpreendente de brigadeiro com mousse de maracujá.", img: "bolo_mix.png.jpeg" }
+];
+let carrinho = [];
+const productsDiv = document.getElementById('products');
+const cartContainer = document.getElementById('cartContainer');
+const cartItemsDiv = document.getElementById('cartItems');
+const cartTotalDiv = document.getElementById('cartTotal');
+const customerForm = document.getElementById('customerForm');
+const paymentLinkDiv = document.getElementById('paymentLink');
+const msgAdicionado = document.getElementById('msgAdicionado');
+const somAdicionado = document.getElementById('somAdicionado');
 
-  const produtos = [
-    { nome: "Doce de Leite com Paçoca", preco: 10.90, descricao: "Sabor cremoso do doce de leite com toque crocante da paçoca.", img: "doce_pacoca.png.jpeg" },
-    { nome: "Mousse de Maracujá Cremoso", preco: 12.00, descricao: "Sobremesa leve, refrescante e saborosa.", img: "mousse_maracuja.png.jpeg" },
-    { nome: "Bolo de Brigadeiro", preco: 12.00, descricao: "Camadas fofinhas de bolo com brigadeiro artesanal.", img: "bolo_brigadeiro.png.jpeg" },
-    { nome: "Bolo de Brigadeiro com Mousse de Maracujá", preco: 12.00, descricao: "Combinação surpreendente de brigadeiro com mousse de maracujá.", img: "bolo_mix.png.jpeg" }
-  ];
-
-  let carrinho = [];
-
-  const productsDiv = document.getElementById('products');
-  const cartContainer = document.getElementById('cartContainer');
-  const cartItemsDiv = document.getElementById('cartItems');
-  const cartTotalDiv = document.getElementById('cartTotal');
-  const customerForm = document.getElementById('customerForm');
-  const paymentLinkDiv = document.getElementById('paymentLink');
-  const msgAdicionado = document.getElementById('msgAdicionado');
-  const somAdicionado = document.getElementById('somAdicionado');
-
-  function mostrarMensagemAdicionado() {
-    msgAdicionado.style.display = 'block';
-    somAdicionado.currentTime = 0;
-    somAdicionado.play();
-    setTimeout(() => {
-      msgAdicionado.style.display = 'none';
-    }, 2000);
-  }
-
-  function atualizarCarrinho() {
-    if (carrinho.length === 0) {
-      cartContainer.style.display = 'none';
-      paymentLinkDiv.innerHTML = '';
-      return;
-    }
+function toggleCarrinho() {
+  if (cartContainer.style.display === 'block') {
+    cartContainer.style.display = 'none';
+  } else {
     cartContainer.style.display = 'block';
-
-    cartItemsDiv.innerHTML = '';
-    let total = 0;
-
-    carrinho.forEach((item, idx) => {
-      const itemTotal = item.preco * item.quantidade;
-      total += itemTotal;
-
-      const div = document.createElement('div');
-      div.className = 'cart-item';
-      div.innerHTML = `
-        <span>${item.quantidade}x ${item.nome} - R$ ${itemTotal.toFixed(2)}</span>
-        <button onclick="removerItem(${idx})" class="remove">X</button>
-        <button onclick="alterarQuantidade(${idx}, -1)">-</button>
-        <button onclick="alterarQuantidade(${idx}, 1)">+</button>
-      `;
-      cartItemsDiv.appendChild(div);
-    });
-
-    cartTotalDiv.textContent = `Total: R$ ${total.toFixed(2)}`;
-    customerForm.style.display = 'block';
   }
+}
 
-  function removerItem(idx) {
-    carrinho.splice(idx, 1);
-    atualizarCarrinho();
+function mostrarMensagemAdicionado() {
+  msgAdicionado.style.display = 'block';
+  somAdicionado.currentTime = 0;
+  somAdicionado.play();
+  setTimeout(() => {
+    msgAdicionado.style.display = 'none';
+  }, 2000);
+}
+
+function atualizarCarrinho() {
+  if (carrinho.length === 0) {
+    cartContainer.style.display = 'none';
+    paymentLinkDiv.innerHTML = '';
+    return;
   }
-
-  function alterarQuantidade(idx, delta) {
-    carrinho[idx].quantidade += delta;
-    if (carrinho[idx].quantidade <= 0) {
-      removerItem(idx);
-    } else {
-      atualizarCarrinho();
-    }
-  }
-
-  function adicionarProduto(idx) {
-    const produto = produtos[idx];
-    const existente = carrinho.find(p => p.nome === produto.nome);
-    if (existente) {
-      existente.quantidade++;
-    } else {
-      carrinho.push({ nome: produto.nome, preco: produto.preco, quantidade: 1 });
-    }
-    atualizarCarrinho();
-    mostrarMensagemAdicionado();
-  }
-
-  produtos.forEach((produto, idx) => {
+  cartContainer.style.display = 'block';
+  cartItemsDiv.innerHTML = '';
+  let total = 0;
+  carrinho.forEach((item, idx) => {
+    const itemTotal = item.preco * item.quantidade;
+    total += itemTotal;
     const div = document.createElement('div');
-    div.className = 'product';
-    div.title = produto.descricao;
+    div.className = 'cart-item';
     div.innerHTML = `
-      <img src="${produto.img}" alt="${produto.nome}" />
-      <h3>${produto.nome}</h3>
-      <p>${produto.descricao}</p>
-      <div class="price">R$ ${produto.preco.toFixed(2)}</div>
+      <span>${item.quantidade}x ${item.nome} - R$ ${itemTotal.toFixed(2)}</span>
+      <button onclick="removerItem(${idx})" class="remove">X</button>
+      <button onclick="alterarQuantidade(${idx}, -1)">-</button>
+      <button onclick="alterarQuantidade(${idx}, 1)">+</button>
     `;
-    div.onclick = () => adicionarProduto(idx);
-    productsDiv.appendChild(div);
+    cartItemsDiv.appendChild(div);
   });
+  cartTotalDiv.textContent = `Total: R$ ${total.toFixed(2)}`;
+  customerForm.style.display = 'block';
+}
 
-  customerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+function removerItem(idx) {
+  carrinho.splice(idx, 1);
+  atualizarCarrinho();
+}
 
-    const nome = document.getElementById('nome').value.trim();
-    const telefone = document.getElementById('telefone').value.trim();
-    const endereco = document.getElementById('endereco').value.trim();
+function alterarQuantidade(idx, delta) {
+  carrinho[idx].quantidade += delta;
+  if (carrinho[idx].quantidade <= 0) {
+    removerItem(idx);
+  } else {
+    atualizarCarrinho();
+  }
+}
 
-    if (!nome || !telefone || !endereco) {
-      alert('Preencha todos os dados para entrega.');
-      return;
+function adicionarProduto(idx) {
+  const produto = produtos[idx];
+  const existente = carrinho.find(p => p.nome === produto.nome);
+  if (existente) {
+    existente.quantidade++;
+  } else {
+    carrinho.push({ nome: produto.nome, preco: produto.preco, quantidade: 1 });
+  }
+  atualizarCarrinho();
+  mostrarMensagemAdicionado();
+  cartContainer.style.display = 'block';
+}
+
+produtos.forEach((produto, idx) => {
+  const div = document.createElement('div');
+  div.className = 'product';
+  div.title = produto.descricao;
+  div.innerHTML = `
+    <img src="${produto.img}" alt="${produto.nome}" />
+    <h3>${produto.nome}</h3>
+    <p>${produto.descricao}</p>
+    <div class="price">R$ ${produto.preco.toFixed(2)}</div>
+  `;
+  div.onclick = () => adicionarProduto(idx);
+  productsDiv.appendChild(div);
+});
+
+customerForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const nome = document.getElementById('nome').value.trim();
+  const telefone = document.getElementById('telefone').value.trim();
+  const endereco = document.getElementById('endereco').value.trim();
+  if (!nome || !telefone || !endereco) {
+    alert('Preencha todos os dados para entrega.');
+    return;
+  }
+  let total = 0;
+  carrinho.forEach(item => total += item.preco * item.quantidade);
+  const data = {
+    carrinho,
+    cliente: { nome, telefone, endereco },
+    total
+  };
+  try {
+    const res = await fetch(backendURL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    const json = await res.json();
+    if (json.link) {
+      paymentLinkDiv.innerHTML = `
+        <p>Pagamento gerado com sucesso!</p>
+        <p><a href="${json.link}" target="_blank">Clique aqui para pagar</a></p>
+      `;
+      carrinho = [];
+      atualizarCarrinho();
+      customerForm.reset();
+      customerForm.style.display = 'none';
+    } else {
+      paymentLinkDiv.textContent = 'Erro ao gerar link: ' + (json.error || JSON.stringify(json));
     }
-
-    let total = 0;
-    carrinho.forEach(item => total += item.preco * item.quantidade);
-
-    const data = {
-      carrinho,
-      cliente: { nome, telefone, endereco },
-      total
-    };
-
-    try {
-      const res = await fetch(backendURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      const json = await res.json();
-
-      if (json.link) {
-        paymentLinkDiv.innerHTML = `
-          <p>Pagamento gerado com sucesso!</p>
-          <p><a href="${json.link}" target="_blank">Clique aqui para pagar</a></p>
-        `;
-        carrinho = [];
-        atualizarCarrinho();
-        customerForm.reset();
-        customerForm.style.display = 'none';
-      } else {
-        paymentLinkDiv.textContent = 'Erro ao gerar link: ' + (json.error || JSON.stringify(json));
-      }
-    } catch (err) {
-      paymentLinkDiv.textContent = 'Erro na comunicação com o servidor: ' + err.message;
-    }
-  });
+  } catch (err) {
+    paymentLinkDiv.textContent = 'Erro na comunicação com o servidor: ' + err.message;
+  }
+});
 </script>
-
 </body>
 </html>
