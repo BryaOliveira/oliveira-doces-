@@ -2,488 +2,277 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Doces Família Oliveira</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Doces Família Oliveira - Loja</title>
   <style>
-    /* Seu CSS atual */
     body {
       font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 20px;
       background: #fff8f0;
       color: #3d2b1f;
-    }
-    header {
-      background-color: #fff;
-      text-align: center;
-      padding: 0;
-      position: relative;
     }
     header img.logo {
       width: 100%;
       max-height: 300px;
       object-fit: cover;
-    }
-    .social-buttons {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 10px;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-    .social-buttons a img {
-      width: 40px;
-      height: 40px;
-    }
-    .social-buttons a button {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background-color: #0f0f0f;
-      color: #ffffff;
-      border: none;
-      border-radius: 8px;
-      padding: 10px 15px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    .social-buttons a button img {
-      height: 20px;
-    }
-    .intro {
-      text-align: center;
-      padding: 30px 20px;
-      background-color: #fff3e0;
-    }
-    .intro h1 {
-      font-size: 2em;
       margin-bottom: 10px;
     }
-    .intro p {
-      font-size: 1.1em;
-    }
-    /* Produtos grid */
     .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      padding: 40px 20px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
     }
     .product {
-      background-color: #fff;
+      background: #fff;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      overflow: hidden;
-      text-align: center;
-      transition: transform 0.3s;
+      padding: 10px;
+      width: 220px;
       cursor: pointer;
-      user-select: none;
-      padding-bottom: 10px;
+      transition: box-shadow 0.3s ease;
     }
     .product:hover {
-      transform: scale(1.02);
-    }
-    .product img {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
+      box-shadow: 0 0 15px #8B4513;
     }
     .product h3 {
-      margin: 15px 0 5px;
-      font-size: 1.3em;
+      margin: 0 0 10px;
+      font-size: 1.2em;
     }
     .product p {
-      padding: 0 15px 10px;
-      font-size: 1em;
+      font-size: 0.9em;
+      height: 60px;
+      overflow: hidden;
+      margin-bottom: 10px;
     }
     .product .price {
       font-weight: bold;
+      color: #8B4513;
       font-size: 1.1em;
-      margin-bottom: 5px;
-      color: #8B4513;
     }
-
-    /* Carrinho */
-    #cart {
-      position: fixed;
-      right: 10px;
-      top: 100px;
-      width: 320px;
-      max-height: 80vh;
+    .cart {
       background: #fff3e0;
-      border: 2px solid #8B4513;
-      border-radius: 10px;
       padding: 15px;
-      overflow-y: auto;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      font-size: 14px;
-      z-index: 9999;
+      border-radius: 10px;
+      max-width: 600px;
+      margin-bottom: 20px;
+      display: none;
     }
-    #cart h2 {
-      margin-top: 0;
-      text-align: center;
-      color: #8B4513;
-    }
-    #cart ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 10px 0;
-    }
-    #cart li {
+    .cart-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
-      border-bottom: 1px solid #d4b38f;
-      padding-bottom: 5px;
-    }
-    #cart li span {
-      flex: 1;
-    }
-    #cart li button {
-      background: transparent;
-      border: none;
-      color: #a52a2a;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 18px;
-      margin-left: 5px;
-    }
-    #cart #total {
-      font-weight: bold;
-      text-align: right;
       margin-bottom: 10px;
-      font-size: 16px;
     }
-
-    /* Formulário de cadastro */
-    #checkout-form {
-      background: #fff;
-      border: 2px solid #8B4513;
-      border-radius: 10px;
-      padding: 15px;
-      margin-top: 10px;
+    .cart-item span {
+      flex-grow: 1;
     }
-    #checkout-form label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #8B4513;
-    }
-    #checkout-form input, #checkout-form textarea {
-      width: 100%;
-      padding: 7px;
-      margin-bottom: 15px;
-      border: 1px solid #8B4513;
+    .cart-item button {
+      background: #8B4513;
+      border: none;
+      color: white;
+      padding: 4px 8px;
+      margin-left: 5px;
       border-radius: 5px;
-      font-size: 14px;
-      font-family: 'Segoe UI', sans-serif;
+      cursor: pointer;
     }
-    #checkout-form button {
-      background-color: #8B4513;
+    .cart-item button.remove {
+      background: #a33;
+    }
+    form {
+      max-width: 600px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      display: none;
+    }
+    form input, form textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 12px;
+      border-radius: 5px;
+      border: 1px solid #d1bfa1;
+      font-size: 1em;
+    }
+    form button {
+      background: #8B4513;
       color: white;
       border: none;
-      padding: 10px;
-      width: 100%;
-      font-size: 16px;
-      border-radius: 7px;
+      padding: 10px 20px;
+      font-size: 1.1em;
+      border-radius: 6px;
       cursor: pointer;
     }
-    #checkout-form button:disabled {
-      background-color: #c1a57b;
-      cursor: not-allowed;
+    #paymentLink {
+      max-width: 600px;
+      margin-top: 20px;
+      font-weight: bold;
     }
-    /* Responsivo para carrinho fixo */
-    @media(max-width: 800px) {
-      #cart {
-        position: static;
-        width: 90%;
-        max-height: none;
-        margin: 20px auto;
-      }
-    }
-
   </style>
 </head>
 <body>
 
 <header>
   <img src="logo.png.jpeg" alt="Doces Família Oliveira" class="logo" />
-  <div class="social-buttons">
-    <a href="https://wa.me/5519997848752" target="_blank">
-      <img src="whatsapp_icon.png" alt="WhatsApp" />
-    </a>
-    <a href="https://www.instagram.com/oliveira__doces.gourmet" target="_blank">
-      <img src="instagram_icon.png" alt="Instagram" />
-    </a>
-    <a href="https://linknabio.gg/bryan-oliveira27" target="_blank">
-      <button>
-        <img src="Logo_InfinitePay.svg.png" alt="InfinitePay">
-        Pagar com InfinitePay
-      </button>
-    </a>
-  </div>
 </header>
 
-<section class="intro">
-  <h1>Bem-vindo à Doces Família Oliveira!</h1>
-  <p>Um pedacinho de carinho em cada pote. Produzidos com amor, tradição e sabor irresistível. Conheça nossos doces e sinta o gostinho de casa!</p>
-</section>
+<h1>Doces Família Oliveira</h1>
 
-<section class="products" id="products-container">
-  <!-- Produtos gerados por JS -->
-</section>
+<div class="products" id="products"></div>
 
-<!-- Carrinho fixo -->
-<div id="cart" style="display:none;">
+<div class="cart" id="cart">
   <h2>Seu Carrinho</h2>
-  <ul id="cart-items"></ul>
-  <div id="total">Total: R$ 0,00</div>
-
-  <form id="checkout-form">
-    <label for="name">Nome completo:</label>
-    <input type="text" id="name" required placeholder="Seu nome" />
-    
-    <label for="address">Endereço para entrega:</label>
-    <textarea id="address" required placeholder="Rua, número, bairro, cidade, CEP"></textarea>
-
-    <div id="delivery-info" style="margin-bottom:15px; color:#8B4513; font-size:14px;"></div>
-
-    <button type="submit" disabled>Finalizar Compra</button>
-  </form>
+  <div id="cartItems"></div>
+  <div><strong>Total: R$ <span id="cartTotal">0.00</span></strong></div>
 </div>
 
-<footer>
-  © 2025 Doces Família Oliveira — Feito com amor para adoçar sua vida.
-</footer>
+<form id="customerForm">
+  <h2>Dados para entrega</h2>
+  <input type="text" id="nome" placeholder="Nome completo" required />
+  <textarea id="endereco" placeholder="Endereço de entrega" required rows="2"></textarea>
+  <button type="submit">Finalizar Pedido e Gerar Link de Pagamento</button>
+</form>
+
+<div id="paymentLink"></div>
 
 <script>
-  // Produtos disponíveis
-  const produtos = [
-    {
-      id: 1,
-      nome: "Doce de Leite com Paçoca",
-      descricao: "Uma combinação perfeita do sabor cremoso do doce de leite com o toque crocante da paçoca. Um clássico que derrete na boca.",
-      preco: 10.90,
-      imagem: "doce_pacoca.png.jpeg"
-    },
-    {
-      id: 2,
-      nome: "Mousse de Maracujá Cremoso",
-      descricao: "Leve, refrescante e incrivelmente saboroso. O mousse perfeito para quem ama uma sobremesa com sabor tropical.",
-      preco: 12.00,
-      imagem: "mousse_maracuja.png.jpeg"
-    },
-    {
-      id: 3,
-      nome: "Bolo de Brigadeiro",
-      descricao: "Camadas fofinhas de bolo com brigadeiro artesanal. Uma explosão de chocolate que conquista qualquer paladar.",
-      preco: 12.00,
-      imagem: "bolo_brigadeiro.png.jpeg"
-    },
-    {
-      id: 4,
-      nome: "Bolo de Brigadeiro com Mousse de Maracujá",
-      descricao: "Uma combinação surpreendente de sabores que se completam: o doce do brigadeiro com o azedinho do maracujá.",
-      preco: 12.00,
-      imagem: "bolo_mix.png.jpeg"
-    }
-  ];
+const backendURL = 'https://oliveiradoces.infinityfreeapp.com/checkout.php'; // backend PHP
 
-  // Variáveis de estado
-  let carrinho = [];
+const produtos = [
+  { nome: "Doce de Leite com Paçoca", preco: 10.90, descricao: "Sabor cremoso do doce de leite com toque crocante da paçoca." },
+  { nome: "Mousse de Maracujá Cremoso", preco: 12.00, descricao: "Sobremesa leve, refrescante e saborosa." },
+  { nome: "Bolo de Brigadeiro", preco: 12.00, descricao: "Camadas fofinhas de bolo com brigadeiro artesanal." },
+  { nome: "Bolo de Brigadeiro com Mousse de Maracujá", preco: 12.00, descricao: "Combinação surpreendente de brigadeiro com mousse de maracujá." }
+];
 
-  // Referências DOM
-  const productsContainer = document.getElementById('products-container');
-  const cartEl = document.getElementById('cart');
-  const cartItemsEl = document.getElementById('cart-items');
-  const totalEl = document.getElementById('total');
-  const checkoutForm = document.getElementById('checkout-form');
-  const nameInput = document.getElementById('name');
-  const addressInput = document.getElementById('address');
-  const deliveryInfo = document.getElementById('delivery-info');
-  const finalizarBtn = checkoutForm.querySelector('button');
+let carrinho = [];
 
-  // Renderiza produtos como botões clicáveis
-  function renderProdutos() {
-    productsContainer.innerHTML = '';
-    produtos.forEach(prod => {
-      const div = document.createElement('div');
-      div.classList.add('product');
-      div.innerHTML = `
-        <img src="${prod.imagem}" alt="${prod.nome}" />
-        <h3>${prod.nome}</h3>
-        <p>${prod.descricao}</p>
-        <div class="price">R$ ${prod.preco.toFixed(2)}</div>
-        <button type="button">Adicionar</button>
-      `;
-      const btn = div.querySelector('button');
-      btn.addEventListener('click', () => addToCart(prod.id));
-      productsContainer.appendChild(div);
-    });
+const productsDiv = document.getElementById('products');
+const cartDiv = document.getElementById('cart');
+const cartItemsDiv = document.getElementById('cartItems');
+const cartTotalSpan = document.getElementById('cartTotal');
+const customerForm = document.getElementById('customerForm');
+const paymentLinkDiv = document.getElementById('paymentLink');
+
+function atualizarCarrinho() {
+  if (carrinho.length === 0) {
+    cartDiv.style.display = 'none';
+    customerForm.style.display = 'none';
+    paymentLinkDiv.innerHTML = '';
+    return;
   }
+  cartDiv.style.display = 'block';
+  customerForm.style.display = 'block';
 
-  // Adiciona produto ao carrinho
-  function addToCart(id) {
-    const produto = produtos.find(p => p.id === id);
-    if (!produto) return;
+  cartItemsDiv.innerHTML = '';
+  let total = 0;
 
-    const item = carrinho.find(i => i.id === id);
-    if (item) {
-      item.quantidade++;
-    } else {
-      carrinho.push({ ...produto, quantidade: 1 });
-    }
-    renderCarrinho();
-  }
+  carrinho.forEach((item, idx) => {
+    const itemTotal = item.preco * item.quantidade;
+    total += itemTotal;
 
-  // Remove um item do carrinho
-  function removeFromCart(id) {
-    carrinho = carrinho.filter(i => i.id !== id);
-    renderCarrinho();
-  }
-
-  // Atualiza quantidade de um item no carrinho
-  function updateQuantity(id, delta) {
-    const item = carrinho.find(i => i.id === id);
-    if (!item) return;
-    item.quantidade += delta;
-    if (item.quantidade <= 0) {
-      removeFromCart(id);
-    } else {
-      renderCarrinho();
-    }
-  }
-
-  // Calcula o total do carrinho
-  function calcularTotal() {
-    return carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
-  }
-
-  // Renderiza o carrinho na tela
-  function renderCarrinho() {
-    if (carrinho.length === 0) {
-      cartEl.style.display = 'none';
-      return;
-    }
-    cartEl.style.display = 'block';
-
-    cartItemsEl.innerHTML = '';
-    carrinho.forEach(item => {
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <span>${item.quantidade}x ${item.nome}</span>
-        <span>R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
-        <button title="Diminuir" onclick="updateQuantity(${item.id}, -1)">-</button>
-        <button title="Aumentar" onclick="updateQuantity(${item.id}, 1)">+</button>
-        <button title="Remover" onclick="removeFromCart(${item.id})">x</button>
-      `;
-      cartItemsEl.appendChild(li);
-    });
-
-    totalEl.textContent = "Total: R$ " + calcularTotal().toFixed(2);
-
-    // Atualiza info da entrega
-    atualizarInfoEntrega();
-
-    // Habilita botão finalizar se nome e endereço preenchidos
-    validarFormulario();
-  }
-
-  // Funções globais para serem chamadas nos botões inline
-  window.updateQuantity = updateQuantity;
-  window.removeFromCart = removeFromCart;
-
-  // Calcula distância para entrega e valor do frete
-  function atualizarInfoEntrega() {
-    const enderecoCliente = addressInput.value.trim();
-    if (!enderecoCliente) {
-      deliveryInfo.textContent = "Informe seu endereço para calcular o frete.";
-      finalizarBtn.disabled = true;
-      return;
-    }
-
-    // Aqui vamos simular a distância e cálculo do frete, já que não usaremos API externa
-    // Exemplo: distância fixa 5km, frete = (5 - 4)*2.5 = 2.5
-    // Você pode implementar com API externa se quiser depois.
-
-    const distanciaKm = 5; // valor fixo ou calculado manualmente
-    let frete = 0;
-    if (distanciaKm > 4) {
-      frete = (distanciaKm - 4) * 2.5;
-    }
-    deliveryInfo.textContent = `Distância: ${distanciaKm} km. Frete: R$ ${frete.toFixed(2)}.`;
-    finalizarBtn.disabled = false;
-  }
-
-  // Valida se nome e endereço estão preenchidos
-  function validarFormulario() {
-    if (nameInput.value.trim() && addressInput.value.trim() && carrinho.length > 0) {
-      finalizarBtn.disabled = false;
-    } else {
-      finalizarBtn.disabled = true;
-    }
-  }
-
-  nameInput.addEventListener('input', validarFormulario);
-  addressInput.addEventListener('input', () => {
-    validarFormulario();
-    atualizarInfoEntrega();
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.innerHTML = `
+      <span>${item.quantidade}x ${item.nome} - R$ ${itemTotal.toFixed(2)}</span>
+      <button onclick="removerItem(${idx})" class="remove" title="Remover item">X</button>
+      <button onclick="alterarQuantidade(${idx}, -1)" title="Diminuir quantidade">-</button>
+      <button onclick="alterarQuantidade(${idx}, 1)" title="Aumentar quantidade">+</button>
+    `;
+    cartItemsDiv.appendChild(div);
   });
 
-  // Evento submit do formulário
-  checkoutForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    finalizarBtn.disabled = true;
-    finalizarBtn.textContent = 'Gerando link...';
+  cartTotalSpan.textContent = total.toFixed(2);
+}
 
-    const cliente = {
-      nome: nameInput.value.trim(),
-      endereco: addressInput.value.trim(),
-    };
+function removerItem(idx) {
+  carrinho.splice(idx, 1);
+  atualizarCarrinho();
+}
 
-    // Inclui frete no total
-    const distanciaKm = 5; // fixo, alterar se implementar cálculo real
-    let frete = 0;
-    if (distanciaKm > 4) frete = (distanciaKm - 4) * 2.5;
+function alterarQuantidade(idx, delta) {
+  carrinho[idx].quantidade += delta;
+  if (carrinho[idx].quantidade <= 0) {
+    removerItem(idx);
+  } else {
+    atualizarCarrinho();
+  }
+}
 
-    // Monta carrinho para enviar
-    const pedido = carrinho.map(i => ({
-      produto: i.nome,
-      quantidade: i.quantidade,
-      valor: i.preco
-    }));
+function adicionarProduto(idx) {
+  const produto = produtos[idx];
+  const existente = carrinho.find(p => p.nome === produto.nome);
+  if (existente) {
+    existente.quantidade++;
+  } else {
+    carrinho.push({ nome: produto.nome, preco: produto.preco, quantidade: 1 });
+  }
+  atualizarCarrinho();
+}
 
-    const totalComFrete = calcularTotal() + frete;
+produtos.forEach((produto, idx) => {
+  const div = document.createElement('div');
+  div.className = 'product';
+  div.title = produto.descricao;
+  div.innerHTML = `
+    <h3>${produto.nome}</h3>
+    <p>${produto.descricao}</p>
+    <div class="price">R$ ${produto.preco.toFixed(2)}</div>
+  `;
+  div.onclick = () => adicionarProduto(idx);
+  productsDiv.appendChild(div);
+});
 
-    try {
-      const response = await fetch('https://oliveiradoces.infinityfreeapp.com/checkout.php', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          carrinho: pedido,
-          cliente: cliente,
-          frete: frete,
-          total: totalComFrete
-        })
-      });
-      const data = await response.json();
-      if (data.link) {
-        window.location.href = data.link;
-      } else {
-        alert('Erro ao gerar link de pagamento.');
-      }
-    } catch (error) {
-      alert('Erro de conexão: ' + error.message);
+customerForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  if (carrinho.length === 0) {
+    alert('Seu carrinho está vazio!');
+    return;
+  }
+
+  const nome = document.getElementById('nome').value.trim();
+  const endereco = document.getElementById('endereco').value.trim();
+
+  if (!nome || !endereco) {
+    alert('Por favor, preencha todos os dados para entrega.');
+    return;
+  }
+
+  let total = 0;
+  carrinho.forEach(item => total += item.preco * item.quantidade);
+
+  const data = {
+    carrinho,
+    cliente: { nome, endereco },
+    total
+  };
+
+  try {
+    const res = await fetch(backendURL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    const json = await res.json();
+
+    if (json.link) {
+      paymentLinkDiv.innerHTML = `
+        <p>Pagamento gerado com sucesso!</p>
+        <p><a href="${json.link}" target="_blank">Clique aqui para pagar</a></p>
+      `;
+      carrinho = [];
+      atualizarCarrinho();
+      customerForm.reset();
+      customerForm.style.display = 'none';
+    } else {
+      paymentLinkDiv.textContent = 'Erro ao gerar link: ' + (json.error || JSON.stringify(json));
     }
+  } catch (err) {
+    paymentLinkDiv.textContent = 'Erro na comunicação com o servidor: ' + err.message;
+  }
+});
 
-    finalizarBtn.disabled = false;
-    finalizarBtn.textContent = 'Finalizar Compra';
-  });
-
-  // Inicializa
-  renderProdutos();
 </script>
 
 </body>
