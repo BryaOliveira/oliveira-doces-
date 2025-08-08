@@ -1,93 +1,161 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Doces Família Oliveira - Compre Aqui</title>
-<style>
-  /* ... (todo seu CSS original permanece inalterado) ... */
-  #mensagemCarrinhoVazio {
-    text-align: center;
-    color: #a33;
-    font-weight: bold;
-    margin-top: 10px;
-    display: none;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doces de Pote Família Oliveira 🍃</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff8f0;
+      text-align: center;
+    }
+    header {
+      background: #ff9a76;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
+    .produtos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+    .produto {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 200px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .produto:hover {
+      transform: scale(1.05);
+    }
+    .produto img {
+      width: 100%;
+      border-radius: 10px 10px 0 0;
+    }
+    .produto p {
+      padding: 10px;
+      font-weight: bold;
+    }
+    /* Carrinho flutuante */
+    #cartButton {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 999;
+    }
+    #cartButton img {
+      width: 50px;
+      height: 50px;
+    }
+    /* Popup carrinho */
+    #cartPopup {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+      width: 250px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 1000;
+      text-align: left;
+    }
+    /* Mensagem de adição */
+    #msgAdd {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
-<div id="msgAdicionado">Item adicionado ao carrinho!</div>
-<audio id="somAdicionado" src="https://www.soundjay.com/buttons/sounds/button-3.mp3" preload="auto"></audio>
+  <header>
+    Doces de Pote Família Oliveira 🍃
+  </header>
 
-<header>
-  <img src="logo.png.jpeg" alt="Doces Família Oliveira" class="logo" />
-  <h1>Doces de Pote Família Oliveira 🌿</h1>
-  <div class="social-buttons">
-    <a href="https://wa.me/5519997848752" target="_blank"><img src="whatsapp_icon.png" alt="WhatsApp Loja"></a>
-    <a href="https://www.instagram.com/oliveira__doces.gourmet" target="_blank"><img src="instagram_icon.png" alt="Instagram"></a>
+  <p style="font-size:18px; font-weight:bold;">
+    Clique no seu pote desejado e adicione ao carrinho para compra ❤️
+  </p>
+
+  <div class="produtos">
+    <div class="produto" onclick="addToCart('Doce de leite com paçoca - R$ 10,90')">
+      <img src="doce1.jpg" alt="Doce de leite com paçoca">
+      <p>Doce de leite com paçoca - R$ 10,90</p>
+    </div>
+    <div class="produto" onclick="addToCart('Mousse de maracujá cremoso - R$ 12,00')">
+      <img src="doce2.jpg" alt="Mousse de maracujá cremoso">
+      <p>Mousse de maracujá cremoso - R$ 12,00</p>
+    </div>
+    <div class="produto" onclick="addToCart('Bolo de brigadeiro - R$ 12,00')">
+      <img src="doce3.jpg" alt="Bolo de brigadeiro">
+      <p>Bolo de brigadeiro - R$ 12,00</p>
+    </div>
   </div>
-</header>
 
-<h1>Clique no seu pote desejado e adicione ao carrinho ❤️</h1>
-<div class="products" id="products"></div>
+  <!-- Botão flutuante do carrinho -->
+  <button id="cartButton" onclick="toggleCart()">
+    <img src="cart_icon.png.PNG" alt="Carrinho">
+  </button>
 
-<div id="cartContainer">
-  <div id="cartHeader">
-    <img src="cart_icon.png.PNG" alt="Carrinho" />
-    <h2>Seu Carrinho</h2>
-  </div>
-  <div id="cartItems"></div>
-  <div id="mensagemCarrinhoVazio">Você ainda não adicionou nenhum item ao seu carrinho 😢</div>
-  <div id="cartTotal">Total: R$ 0.00</div>
+  <!-- Popup do carrinho -->
+  <div id="cartPopup"></div>
 
-  <form id="customerForm">
-    <h2>Dados para entrega</h2>
-    <input type="text" id="nome" placeholder="Nome completo" required />
-    <input type="tel" id="telefone" placeholder="WhatsApp (ex: 5511999999999)" required pattern="[0-9]{10,15}" />
-    <textarea id="endereco" placeholder="Endereço de entrega" required></textarea>
-    <button type="submit">Finalizar e Gerar Link de Pagamento</button>
-  </form>
-  <div id="paymentLink"></div>
-</div>
+  <!-- Mensagem de adição -->
+  <div id="msgAdd">Item adicionado ao carrinho!</div>
 
-<!-- Botão flutuante do carrinho -->
-<button id="botaoCarrinho" onclick="toggleCarrinho()" aria-label="Abrir Carrinho">
-  🛒
-</button>
+  <!-- Som -->
+  <audio id="addSound" src="https://www.myinstants.com/media/sounds/pop-up-off.mp3"></audio>
 
-<script>
-// ...(todo seu script original até a função atualizarCarrinho)
-function atualizarCarrinho() {
-  const msgVazio = document.getElementById('mensagemCarrinhoVazio');
-  if (carrinho.length === 0) {
-    cartItemsDiv.innerHTML = '';
-    msgVazio.style.display = 'block';
-    cartTotalDiv.textContent = 'Total: R$ 0.00';
-    customerForm.style.display = 'none';
-    return;
-  } else {
-    msgVazio.style.display = 'none';
-  }
-  cartItemsDiv.innerHTML = '';
-  let total = 0;
-  carrinho.forEach((item, idx) => {
-    const itemTotal = item.preco * item.quantidade;
-    total += itemTotal;
-    const div = document.createElement('div');
-    div.className = 'cart-item';
-    div.innerHTML = `
-      <span>${item.quantidade}x ${item.nome} - R$ ${itemTotal.toFixed(2)}</span>
-      <button onclick="removerItem(${idx})" class="remove">X</button>
-      <button onclick="alterarQuantidade(${idx}, -1)">-</button>
-      <button onclick="alterarQuantidade(${idx}, 1)">+</button>
-    `;
-    cartItemsDiv.appendChild(div);
-  });
-  cartTotalDiv.textContent = `Total: R$ ${total.toFixed(2)}`;
-  customerForm.style.display = 'block';
-}
-// ...(restante do seu script permanece igual)
-</script>
+  <script>
+    let cart = [];
+
+    function addToCart(item) {
+      cart.push(item);
+      document.getElementById("msgAdd").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("msgAdd").style.display = "none";
+      }, 1500);
+
+      let sound = document.getElementById("addSound");
+      sound.play();
+    }
+
+    function toggleCart() {
+      const popup = document.getElementById("cartPopup");
+      if (popup.style.display === "block") {
+        popup.style.display = "none";
+      } else {
+        if (cart.length === 0) {
+          popup.innerHTML = "<p>Seu carrinho ainda está vazio 😢</p>";
+        } else {
+          popup.innerHTML = "<h3>Itens no carrinho:</h3><ul>" + 
+            cart.map(item => `<li>${item}</li>`).join('') + "</ul>";
+        }
+        popup.style.display = "block";
+      }
+    }
+  </script>
+
 </body>
 </html>
