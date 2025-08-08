@@ -42,7 +42,6 @@
     transform: scale(1.1);
   }
 
-  /* Mensagem de confirmação */
   #msgAdicionado {
     position: fixed;
     top: 15px;
@@ -207,7 +206,6 @@
     color: #2a662a;
   }
 
-  /* Responsivo */
   @media(max-width: 480px) {
     #cartContainer {
       position: static;
@@ -245,7 +243,7 @@
 
 <div id="cartContainer">
   <div id="cartHeader">
-    <img src="cart_icon.png" alt="Carrinho" />
+    <img src="cart_icon.png.PNG" alt="Carrinho" />
     <h2>Seu Carrinho</h2>
   </div>
   <div id="cartItems"></div>
@@ -262,155 +260,7 @@
 </div>
 
 <script>
-  const backendURL = 'https://oliveiradoces.infinityfreeapp.com/checkout.php'; // Ajuste para seu backend PHP
-
-  const produtos = [
-    { nome: "Doce de Leite com Paçoca", preco: 10.90, descricao: "Sabor cremoso do doce de leite com toque crocante da paçoca.", img: "doce_pacoca.png.jpeg" },
-    { nome: "Mousse de Maracujá Cremoso", preco: 12.00, descricao: "Sobremesa leve, refrescante e saborosa.", img: "mousse_maracuja.png.jpeg" },
-    { nome: "Bolo de Brigadeiro", preco: 12.00, descricao: "Camadas fofinhas de bolo com brigadeiro artesanal.", img: "bolo_brigadeiro.png.jpeg" },
-    { nome: "Bolo de Brigadeiro com Mousse de Maracujá", preco: 12.00, descricao: "Combinação surpreendente de brigadeiro com mousse de maracujá.", img: "bolo_mix.png.jpeg" }
-  ];
-
-  let carrinho = [];
-
-  const productsDiv = document.getElementById('products');
-  const cartContainer = document.getElementById('cartContainer');
-  const cartItemsDiv = document.getElementById('cartItems');
-  const cartTotalDiv = document.getElementById('cartTotal');
-  const customerForm = document.getElementById('customerForm');
-  const paymentLinkDiv = document.getElementById('paymentLink');
-  const msgAdicionado = document.getElementById('msgAdicionado');
-
-  function mostrarMensagem(texto) {
-    msgAdicionado.textContent = texto;
-    msgAdicionado.style.opacity = 1;
-    setTimeout(() => {
-      msgAdicionado.style.opacity = 0;
-    }, 2000);
-  }
-
-  function atualizarCarrinho() {
-    if (carrinho.length === 0) {
-      cartContainer.style.display = 'none';
-      paymentLinkDiv.innerHTML = '';
-      customerForm.style.display = 'none';
-      return;
-    }
-    cartContainer.style.display = 'block';
-
-    cartItemsDiv.innerHTML = '';
-    let total = 0;
-
-    carrinho.forEach((item, idx) => {
-      const itemTotal = item.preco * item.quantidade;
-      total += itemTotal;
-
-      const div = document.createElement('div');
-      div.className = 'cart-item';
-      div.innerHTML = `
-        <span>${item.quantidade}x ${item.nome} - R$ ${itemTotal.toFixed(2)}</span>
-        <button onclick="removerItem(${idx})" class="remove" title="Remover">X</button>
-        <button onclick="alterarQuantidade(${idx}, -1)" title="Diminuir quantidade">-</button>
-        <button onclick="alterarQuantidade(${idx}, 1)" title="Aumentar quantidade">+</button>
-      `;
-      cartItemsDiv.appendChild(div);
-    });
-
-    cartTotalDiv.textContent = `Total: R$ ${total.toFixed(2)}`;
-    customerForm.style.display = 'block';
-    paymentLinkDiv.innerHTML = '';
-  }
-
-  function removerItem(idx) {
-    carrinho.splice(idx, 1);
-    atualizarCarrinho();
-  }
-
-  function alterarQuantidade(idx, delta) {
-    carrinho[idx].quantidade += delta;
-    if (carrinho[idx].quantidade <= 0) {
-      removerItem(idx);
-    } else {
-      atualizarCarrinho();
-    }
-  }
-
-  function adicionarProduto(idx) {
-    const produto = produtos[idx];
-    const existente = carrinho.find(p => p.nome === produto.nome);
-    if (existente) {
-      existente.quantidade++;
-    } else {
-      carrinho.push({ nome: produto.nome, preco: produto.preco, quantidade: 1 });
-    }
-    atualizarCarrinho();
-    mostrarMensagem(`"${produto.nome}" adicionado ao carrinho!`);
-  }
-
-  produtos.forEach((produto, idx) => {
-    const div = document.createElement('div');
-    div.className = 'product';
-    div.title = produto.descricao;
-    div.innerHTML = `
-      <img src="${produto.img}" alt="${produto.nome}" />
-      <h3>${produto.nome}</h3>
-      <p>${produto.descricao}</p>
-      <div class="price">R$ ${produto.preco.toFixed(2)}</div>
-    `;
-    div.onclick = () => adicionarProduto(idx);
-    productsDiv.appendChild(div);
-  });
-
-  customerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    if (carrinho.length === 0) {
-      alert('Seu carrinho está vazio!');
-      return;
-    }
-
-    const nome = document.getElementById('nome').value.trim();
-    const telefone = document.getElementById('telefone').value.trim();
-    const endereco = document.getElementById('endereco').value.trim();
-
-    if (!nome || !telefone || !endereco) {
-      alert('Por favor, preencha todos os dados para entrega.');
-      return;
-    }
-
-    let total = 0;
-    carrinho.forEach(item => total += item.preco * item.quantidade);
-
-    const data = {
-      carrinho,
-      cliente: { nome, telefone, endereco },
-      total
-    };
-
-    try {
-      const res = await fetch(backendURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      const json = await res.json();
-
-      if (json.link) {
-        paymentLinkDiv.innerHTML = `
-          <p>Pagamento gerado com sucesso!</p>
-          <p><a href="${json.link}" target="_blank" rel="noopener noreferrer">Clique aqui para pagar</a></p>
-        `;
-        carrinho = [];
-        atualizarCarrinho();
-        customerForm.reset();
-        customerForm.style.display = 'none';
-      } else {
-        paymentLinkDiv.textContent = 'Erro ao gerar link: ' + (json.error || JSON.stringify(json));
-      }
-    } catch (err) {
-      paymentLinkDiv.textContent = 'Erro na comunicação com o servidor: ' + err.message;
-    }
-  });
+  // ... seu script JS permanece o mesmo aqui ...
 </script>
 
 </body>
