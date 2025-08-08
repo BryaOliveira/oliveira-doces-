@@ -183,14 +183,12 @@
     background: #dff0d8;
     color: #3c763d;
     text-align: center;
-    padding: 12px 18px;
+    padding: 12px 25px;
     font-weight: bold;
     font-size: 1.1em;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     z-index: 1100;
-    max-width: 250px;
-    cursor: default;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #3c763daa;
   }
   #botaoCarrinho {
     position: fixed;
@@ -198,11 +196,11 @@
     right: 20px;
     background: transparent;
     border: none;
+    padding: 0;
     width: 55px;
     height: 55px;
     cursor: pointer;
     z-index: 1000;
-    padding: 0;
   }
   #botaoCarrinho img {
     width: 100%;
@@ -265,9 +263,9 @@
   <div id="paymentLink"></div>
 </div>
 
-<!-- Botão flutuante do carrinho -->
+<!-- Botão flutuante do carrinho com imagem carrinho.png -->
 <button id="botaoCarrinho" onclick="toggleCarrinho()" aria-label="Abrir Carrinho">
-  <img src="cart_icon.png" alt="Carrinho" />
+  <img src="carrinho.png" alt="Carrinho" />
 </button>
 
 <script>
@@ -288,23 +286,21 @@ const paymentLinkDiv = document.getElementById('paymentLink');
 const msgAdicionado = document.getElementById('msgAdicionado');
 const somAdicionado = document.getElementById('somAdicionado');
 
-function mostrarMensagemAdicionado() {
-  msgAdicionado.style.display = 'block';
-  somAdicionado.currentTime = 0;
-  somAdicionado.play();
-  clearTimeout(msgAdicionado.timeoutId);
-  msgAdicionado.timeoutId = setTimeout(() => {
-    msgAdicionado.style.display = 'none';
-  }, 2000);
-}
-
 function toggleCarrinho() {
   if (cartContainer.style.display === 'block') {
     cartContainer.style.display = 'none';
   } else {
     cartContainer.style.display = 'block';
-    mostrarMensagemAdicionado(); // mostra mensagem ao abrir o carrinho
   }
+}
+
+function mostrarMensagemAdicionado() {
+  msgAdicionado.style.display = 'block';
+  somAdicionado.currentTime = 0;
+  somAdicionado.play();
+  setTimeout(() => {
+    msgAdicionado.style.display = 'none';
+  }, 2000);
 }
 
 function atualizarCarrinho() {
