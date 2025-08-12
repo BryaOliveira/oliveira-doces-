@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<title>Teste Proxy Checkout</title>
+</head>
+<body>
+<h1>Teste de Proxy Checkout</h1>
+<button id="btnTeste">Testar Proxy</button>
+<pre id="resultado" style="background:#eee; padding:10px; white-space: pre-wrap;"></pre>
+
+<script>
+const backendURL = 'https://oliveiradoces.infinityfreeapp.com/proxy_checkout.php';
+
+document.getElementById('btnTeste').addEventListener('click', async () => {
+  const payload = {
+    carrinho: [{ nome: "Teste Produto", preco: 1.00, quantidade: 1 }],
+    cliente: { nome: "Cliente Teste", telefone: "5511999999999", endereco: "Rua Teste, 123" },
+    total: 1.00
+  };
+  try {
+    const res = await fetch(backendURL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const json = await res.json();
+    document.getElementById('resultado').textContent = JSON.stringify(json, null, 2);
+  } catch (err) {
+    document.getElementById('resultado').textContent = 'Erro: ' + err.message;
+  }
+});
+</script>
+
+</body>
+</html>
