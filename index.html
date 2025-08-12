@@ -252,11 +252,11 @@
 </head>
 <body>
 
-<div id="msgAdicionado">
+<div id="msgAdicionado" role="alert" aria-live="assertive">
   Item adicionado ao carrinho!<br>
   Role a página para baixo para localizar os itens do seu carrinho.
 </div>
-<div id="msgVazio">Seu carrinho está vazio 😢</div>
+<div id="msgVazio" role="alert" aria-live="polite">Seu carrinho está vazio 😢</div>
 
 <audio id="somAdicionado" src="https://www.soundjay.com/buttons/sounds/button-3.mp3" preload="auto"></audio>
 
@@ -264,15 +264,15 @@
   <img src="logo.png.jpeg" alt="Doces Família Oliveira" class="logo" />
   <h1>Doces de Pote Família Oliveira 🌿</h1>
   <div class="social-buttons">
-    <a href="https://wa.me/5519997848752" target="_blank"><img src="whatsapp_icon.png" alt="WhatsApp Loja"></a>
-    <a href="https://www.instagram.com/oliveira__doces.gourmet" target="_blank"><img src="instagram_icon.png" alt="Instagram"></a>
+    <a href="https://wa.me/5519997848752" target="_blank" rel="noopener noreferrer"><img src="whatsapp_icon.png" alt="WhatsApp Loja"></a>
+    <a href="https://www.instagram.com/oliveira__doces.gourmet" target="_blank" rel="noopener noreferrer"><img src="instagram_icon.png" alt="Instagram"></a>
   </div>
 </header>
 
 <h1>Clique no seu pote desejado e adicione ao carrinho ❤️</h1>
 <div class="products" id="products"></div>
 
-<div id="cartContainer" aria-live="polite" aria-label="Conteúdo do carrinho">
+<div id="cartContainer" aria-live="polite" aria-label="Conteúdo do carrinho" tabindex="-1">
   <div id="cartHeader">
     <img src="carrinho de compras.PNG" alt="Carrinho" />
     <h2>Seu Carrinho</h2>
@@ -282,21 +282,21 @@
 
   <form id="customerForm" aria-label="Formulário para dados de entrega">
     <h2>Dados para entrega</h2>
-    <input type="text" id="nome" placeholder="Nome completo" required />
-    <input type="tel" id="telefone" placeholder="WhatsApp (ex: 5511999999999)" required pattern="[0-9]{10,15}" />
-    <textarea id="endereco" placeholder="Endereço de entrega" required></textarea>
+    <input type="text" id="nome" placeholder="Nome completo" required autocomplete="name" />
+    <input type="tel" id="telefone" placeholder="WhatsApp (ex: 5511999999999)" required pattern="[0-9]{10,15}" title="Digite apenas números, ex: 5511999999999" autocomplete="tel" />
+    <textarea id="endereco" placeholder="Endereço de entrega" required rows="3" autocomplete="street-address"></textarea>
     <button type="submit">Finalizar e Gerar Link de Pagamento</button>
   </form>
-  <div id="paymentLink"></div>
+  <div id="paymentLink" role="region" aria-live="polite"></div>
 </div>
 
 <!-- Botão flutuante do carrinho -->
-<button id="botaoCarrinho" onclick="toggleCarrinho()" aria-label="Abrir Carrinho">
+<button id="botaoCarrinho" onclick="toggleCarrinho()" aria-label="Abrir ou fechar carrinho" aria-expanded="false" aria-controls="cartContainer">
   <img src="car_icon.PNG" alt="Carrinho" />
 </button>
 
 <script>
-const backendURL = 'https://oliveiradoces.infinityfreeapp.com/proxy_checkout.php'; // <<<<< AQUI está a alteração
+const backendURL = 'https://oliveiradoces.infinityfreeapp.com/proxy_checkout.php'; // Ajuste aqui se necessário
 
 const produtos = [
   { nome: "Doce de Leite com Paçoca", preco: 10.90, descricao: "Sabor cremoso do doce de leite com toque crocante da paçoca.", img: "doce_pacoca.png.jpeg" },
@@ -307,6 +307,7 @@ const produtos = [
 
 let carrinho = [];
 
+// Elementos DOM
 const productsDiv = document.getElementById('products');
 const cartContainer = document.getElementById('cartContainer');
 const cartItemsDiv = document.getElementById('cartItems');
@@ -316,22 +317,28 @@ const paymentLinkDiv = document.getElementById('paymentLink');
 const msgAdicionado = document.getElementById('msgAdicionado');
 const msgVazio = document.getElementById('msgVazio');
 const somAdicionado = document.getElementById('somAdicionado');
+const botaoCarrinho = document.getElementById('botaoCarrinho');
 
 function toggleCarrinho() {
-  if (cartContainer.style.display === 'block') {
+  const isOpen = cartContainer.style.display === 'block';
+  if (isOpen) {
     cartContainer.style.display = 'none';
     msgVazio.style.display = 'none';
+    botaoCarrinho.setAttribute('aria-expanded', 'false');
   } else {
-    if(carrinho.length === 0) {
+    if (carrinho.length === 0) {
       msgVazio.style.display = 'block';
       cartContainer.style.display = 'none';
       setTimeout(() => {
         msgVazio.style.display = 'none';
       }, 3000);
+      botaoCarrinho.setAttribute('aria-expanded', 'false');
     } else {
       msgVazio.style.display = 'none';
       atualizarCarrinho();
       cartContainer.style.display = 'block';
+      cartContainer.focus();
+      botaoCarrinho.setAttribute('aria-expanded', 'true');
     }
   }
 }
@@ -353,6 +360,7 @@ function atualizarCarrinho() {
   if (carrinho.length === 0) {
     cartTotalDiv.textContent = 'Total: R$ 0.00';
     customerForm.style.display = 'none';
+    localStorage.removeItem('carrinho');
     return;
   }
 
@@ -372,6 +380,9 @@ function atualizarCarrinho() {
 
   cartTotalDiv.textContent = `Total: R$ ${total.toFixed(2)}`;
   customerForm.style.display = 'block';
+
+  // Salvar no localStorage
+  localStorage.setItem('carrinho', JSON.stringify(carrinho));
 }
 
 function removerItem(idx) {
@@ -399,6 +410,7 @@ function adicionarProduto(idx) {
   atualizarCarrinho();
   mostrarMensagemAdicionado();
   cartContainer.style.display = 'block';
+  botaoCarrinho.setAttribute('aria-expanded', 'true');
 }
 
 produtos.forEach((produto, idx) => {
@@ -413,6 +425,15 @@ produtos.forEach((produto, idx) => {
   `;
   div.onclick = () => adicionarProduto(idx);
   productsDiv.appendChild(div);
+});
+
+// Carrega carrinho do localStorage ao iniciar
+document.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('carrinho');
+  if (saved) {
+    carrinho = JSON.parse(saved);
+    atualizarCarrinho();
+  }
 });
 
 customerForm.addEventListener('submit', async (e) => {
@@ -451,7 +472,7 @@ customerForm.addEventListener('submit', async (e) => {
     if (json.link) {
       paymentLinkDiv.innerHTML = `
         <p>Pagamento gerado com sucesso!</p>
-        <p><a href="${json.link}" target="_blank">Clique aqui para pagar</a></p>
+        <p><a href="${json.link}" target="_blank" rel="noopener noreferrer">Clique aqui para pagar</a></p>
       `;
       carrinho = [];
       atualizarCarrinho();
