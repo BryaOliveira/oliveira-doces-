@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Doces Família Oliveira - Compre Aqui</title>
 <style>
+  /* Seu CSS permanece o mesmo */
   body {
     font-family: 'Segoe UI', sans-serif;
     margin: 0; padding: 20px;
@@ -295,7 +296,8 @@
 </button>
 
 <script>
-const backendURL = 'https://oliveiradoces.infinityfreeapp.com/checkout.php';
+const backendURL = 'https://oliveiradoces.infinityfreeapp.com/proxy_checkout.php'; // <<<<< AQUI está a alteração
+
 const produtos = [
   { nome: "Doce de Leite com Paçoca", preco: 10.90, descricao: "Sabor cremoso do doce de leite com toque crocante da paçoca.", img: "doce_pacoca.png.jpeg" },
   { nome: "Mousse de Maracujá Cremoso", preco: 12.00, descricao: "Sobremesa leve, refrescante e saborosa.", img: "mousse_maracuja.png.jpeg" },
