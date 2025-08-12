@@ -415,20 +415,29 @@ produtos.forEach((produto, idx) => {
 
 customerForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+
   const nome = document.getElementById('nome').value.trim();
   const telefone = document.getElementById('telefone').value.trim();
   const endereco = document.getElementById('endereco').value.trim();
+
   if (!nome || !telefone || !endereco) {
     alert('Preencha todos os dados para entrega.');
     return;
   }
+
   let total = 0;
   carrinho.forEach(item => total += item.preco * item.quantidade);
+
   const data = {
     carrinho,
-    cliente: { nome, telefone, endereco },
+    cliente: {
+      nome,
+      telefone,
+      endereco
+    },
     total
   };
+
   try {
     const res = await fetch(backendURL, {
       method: 'POST',
@@ -436,6 +445,7 @@ customerForm.addEventListener('submit', async (e) => {
       body: JSON.stringify(data)
     });
     const json = await res.json();
+
     if (json.link) {
       paymentLinkDiv.innerHTML = `
         <p>Pagamento gerado com sucesso!</p>
