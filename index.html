@@ -296,8 +296,10 @@
 </button>
 
 <script>
-const backendURL = 'https://oliveiradoces.infinityfreeapp.com/proxy_checkout.php'; // Ajuste aqui se necessário
+const backendURL = 'https://familia-oliveira-doces-de-pote.vercel.app/api/checkout'; 
+// Substitua pelo seu endpoint correto (Vercel ou outro)
 
+// Produtos disponíveis
 const produtos = [
   { nome: "Doce de Leite com Paçoca", preco: 10.90, descricao: "Sabor cremoso do doce de leite com toque crocante da paçoca.", img: "doce_pacoca.png.jpeg" },
   { nome: "Mousse de Maracujá Cremoso", preco: 12.00, descricao: "Sobremesa leve, refrescante e saborosa.", img: "mousse_maracuja.png.jpeg" },
@@ -307,7 +309,7 @@ const produtos = [
 
 let carrinho = [];
 
-// Elementos DOM
+// DOM Elements
 const productsDiv = document.getElementById('products');
 const cartContainer = document.getElementById('cartContainer');
 const cartItemsDiv = document.getElementById('cartItems');
@@ -381,7 +383,6 @@ function atualizarCarrinho() {
   cartTotalDiv.textContent = `Total: R$ ${total.toFixed(2)}`;
   customerForm.style.display = 'block';
 
-  // Salvar no localStorage
   localStorage.setItem('carrinho', JSON.stringify(carrinho));
 }
 
@@ -427,7 +428,7 @@ produtos.forEach((produto, idx) => {
   productsDiv.appendChild(div);
 });
 
-// Carrega carrinho do localStorage ao iniciar
+// Carregar carrinho do localStorage
 document.addEventListener('DOMContentLoaded', () => {
   const saved = localStorage.getItem('carrinho');
   if (saved) {
@@ -444,45 +445,40 @@ customerForm.addEventListener('submit', async (e) => {
   const endereco = document.getElementById('endereco').value.trim();
 
   if (!nome || !telefone || !endereco) {
-    alert('Preencha todos os dados para entrega.');
+    alert('Por favor, preencha todos os dados para entrega.');
     return;
   }
 
-  let total = 0;
-  carrinho.forEach(item => total += item.preco * item.quantidade);
+  const total = carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
 
-  const data = {
+  const payload = {
     carrinho,
-    cliente: {
-      nome,
-      telefone,
-      endereco
-    },
+    cliente: { nome, telefone, endereco },
     total
   };
 
   try {
-    const res = await fetch(backendURL, {
+    const response = await fetch(backendURL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify(payload)
     });
-    const json = await res.json();
+    const data = await response.json();
 
-    if (json.link) {
+    if (response.ok && data.link) {
       paymentLinkDiv.innerHTML = `
         <p>Pagamento gerado com sucesso!</p>
-        <p><a href="${json.link}" target="_blank" rel="noopener noreferrer">Clique aqui para pagar</a></p>
+        <p><a href="${data.link}" target="_blank" rel="noopener noreferrer" aria-label="Link para pagamento">Clique aqui para pagar</a></p>
       `;
       carrinho = [];
       atualizarCarrinho();
       customerForm.reset();
       customerForm.style.display = 'none';
     } else {
-      paymentLinkDiv.textContent = 'Erro ao gerar link: ' + (json.error || JSON.stringify(json));
+      paymentLinkDiv.textContent = 'Erro ao gerar link: ' + (data.error || JSON.stringify(data));
     }
-  } catch (err) {
-    paymentLinkDiv.textContent = 'Erro na comunicação com o servidor: ' + err.message;
+  } catch (error) {
+    paymentLinkDiv.textContent = 'Erro na comunicação com o servidor: ' + error.message;
   }
 });
 </script>
