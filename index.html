@@ -1,121 +1,115 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Família Oliveira Doces</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #fff8f0;
-      color: #3d2b1f;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    header {
-      background: #8b4513;
-      padding: 10px;
-    }
-    header img.logo-loja {
-      height: 80px;
-      vertical-align: middle;
-    }
-    h1 {
-      margin-top: 20px;
-    }
-    .button-container {
-      margin: 20px;
-    }
-    .btn {
-      display: inline-block;
-      margin: 10px;
-      padding: 12px 20px;
-      font-size: 18px;
-      background-color: #d32f2f;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: background 0.3s;
-    }
-    .btn:hover {
-      background-color: #b71c1c;
-    }
-    .video-container {
-      max-width: 500px;
-      margin: 20px auto;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    }
-    video {
-      width: 100%;
-      display: block;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Doces Família Oliveira - Compre Aqui</title>
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0; padding: 20px;
+    background: #fff8f0;
+    color: #3d2b1f;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  header img.logo {
+    width: 100%;
+    max-height: 280px;
+    object-fit: cover;
+    margin-bottom: 8px;
+  }
+  .social-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-bottom: 25px;
+  }
+  .social-buttons a img {
+    width: 55px; height: 55px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border-radius: 12px;
+  }
+  .social-buttons a img:hover {
+    transform: scale(1.1);
+  }
+  h2 {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1.3em;
+  }
+  .videos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    margin-top: 30px;
+  }
+  video {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+</style>
 </head>
 <body>
 
-  <header>
-    <!-- Logo da Loja (não remover) -->
-    <img src="cart_img.png.PNG" alt="Logo Oliveira Essência Doce" class="logo-loja">
-  </header>
+<header>
+  <img src="logo.png.jpeg" alt="Doces Família Oliveira" class="logo" />
+  <h1>Doces de Pote Família Oliveira 🌿</h1>
 
-  <h1>Bem-vindo à Família Oliveira Doces</h1>
-  <p>Um pedacinho de carinho em cada pote. Produzidos com amor, tradição e sabor irresistível!</p>
-
-  <!-- Botões de Contato (WhatsApp / Instagram) -->
-  <div class="button-container">
-    <a href="https://wa.me/5519997848752" class="btn" target="_blank">📱 WhatsApp da Loja</a>
-    <a href="https://instagram.com/sualoja" class="btn" target="_blank">📸 Instagram da Loja</a>
-  </div>
-
-  <!-- Novos Botões de Compra -->
-  <div class="button-container">
-    <a href="https://loja.infinitepay.io/familia-oliveira-doces" class="btn" target="_blank">
-      <img src="cart_img.png.PNG" alt="Logo Loja Online" style="height:24px; vertical-align:middle; margin-right:8px;"> Comprar Online
+  <div class="social-buttons">
+    <!-- WhatsApp -->
+    <a href="https://wa.me/5519997848752" target="_blank" rel="noopener noreferrer">
+      <img src="whatsapp_icon.png" alt="WhatsApp Loja">
     </a>
-    <a href="https://www.ifood.com.br/delivery/seu-restaurante" class="btn" target="_blank">
-      <img src="ifood.jpg" alt="Logo iFood" style="height:24px; vertical-align:middle; margin-right:8px;"> Comprar no iFood
+    <!-- Instagram -->
+    <a href="https://www.instagram.com/oliveira__doces.gourmet" target="_blank" rel="noopener noreferrer">
+      <img src="instagram_icon.png" alt="Instagram">
+    </a>
+    <!-- Loja Online -->
+    <a href="https://loja.infinitepay.io/familia-oliveira-doces" target="_blank" rel="noopener noreferrer">
+      <img src="cart_img.png.PNG" alt="Loja Online">
+    </a>
+    <!-- iFood -->
+    <a href="https://www.ifood.com.br" target="_blank" rel="noopener noreferrer">
+      <img src="ifood.jpg" alt="iFood">
     </a>
   </div>
+</header>
 
-  <!-- Vídeos -->
-  <div class="video-container">
-    <video src="WhatsApp Video 2025-08-30 at 16.01.11.mp4" muted playsinline></video>
-  </div>
-  <div class="video-container">
-    <video src="WhatsApp Video 2025-08-30 at 16.01.06.mp4" muted playsinline></video>
-  </div>
-  <div class="video-container">
-    <video src="WhatsApp Video 2025-08-30 at 15.59.36.mp4" muted playsinline></video>
-  </div>
-  <div class="video-container">
-    <video src="WhatsApp Video 2025-08-30 at 15.59.26.mp4" muted playsinline></video>
-  </div>
-  <div class="video-container">
-    <video src="WhatsApp Video 2025-08-30 at 15.59.15.mp4" muted playsinline></video>
-  </div>
-  <div class="video-container">
-    <video src="WhatsApp Video 2025-08-30 at 15.59.11.mp4" muted playsinline></video>
-  </div>
+<h2>Confira nossos produtos e valores clicando na Loja Online ou no iFood ❤️</h2>
 
-  <script>
-    // Autoplay dos vídeos quando aparecem na tela
-    const videos = document.querySelectorAll('video');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.play();
-        } else {
-          entry.target.pause();
-        }
-      });
-    }, { threshold: 0.5 });
+<div class="videos">
+  <video src="WhatsApp Video 2025-08-30 at 15.59.11.mp4" muted playsinline></video>
+  <video src="WhatsApp Video 2025-08-30 at 15.59.15.mp4" muted playsinline></video>
+  <video src="WhatsApp Video 2025-08-30 at 15.59.26.mp4" muted playsinline></video>
+  <video src="WhatsApp Video 2025-08-30 at 15.59.36.mp4" muted playsinline></video>
+  <video src="WhatsApp Video 2025-08-30 at 16.01.06.mp4" muted playsinline></video>
+  <video src="WhatsApp Video 2025-08-30 at 16.01.11.mp4" muted playsinline></video>
+</div>
 
-    videos.forEach(video => observer.observe(video));
-  </script>
+<script>
+// Ativar autoplay quando vídeo entra na tela
+const videos = document.querySelectorAll("video");
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.play();
+    } else {
+      entry.target.pause();
+    }
+  });
+}, { threshold: 0.5 });
+
+videos.forEach(video => observer.observe(video));
+</script>
 
 </body>
 </html>
