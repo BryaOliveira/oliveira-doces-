@@ -17,24 +17,12 @@
       background: #8b4513;
       padding: 10px;
     }
-    header img {
-      height: 60px;
-      margin: 0 10px;
+    header img.logo-loja {
+      height: 80px;
       vertical-align: middle;
     }
     h1 {
       margin-top: 20px;
-    }
-    .video-container {
-      max-width: 500px;
-      margin: 20px auto;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    }
-    video {
-      width: 100%;
-      display: block;
     }
     .button-container {
       margin: 20px;
@@ -54,38 +42,67 @@
     .btn:hover {
       background-color: #b71c1c;
     }
+    .video-container {
+      max-width: 500px;
+      margin: 20px auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    video {
+      width: 100%;
+      display: block;
+    }
   </style>
 </head>
 <body>
 
   <header>
-    <!-- Logo iFood -->
-    <img src="ifood.jpg" alt="Logo iFood">
-    <!-- Logo Loja Oliveira -->
-    <img src="cart_img.png" alt="Logo Oliveira Essência Doce">
+    <!-- Logo da Loja (não remover) -->
+    <img src="cart_img.png.PNG" alt="Logo Oliveira Essência Doce" class="logo-loja">
   </header>
 
   <h1>Bem-vindo à Família Oliveira Doces</h1>
   <p>Um pedacinho de carinho em cada pote. Produzidos com amor, tradição e sabor irresistível!</p>
 
-  <!-- Vídeos -->
-  <div class="video-container">
-    <video src="VIDEO1.mp4" muted playsinline></video>
-  </div>
-  <div class="video-container">
-    <video src="VIDEO2.mp4" muted playsinline></video>
-  </div>
-  <div class="video-container">
-    <video src="VIDEO3.mp4" muted playsinline></video>
+  <!-- Botões de Contato (WhatsApp / Instagram) -->
+  <div class="button-container">
+    <a href="https://wa.me/5519997848752" class="btn" target="_blank">📱 WhatsApp da Loja</a>
+    <a href="https://instagram.com/sualoja" class="btn" target="_blank">📸 Instagram da Loja</a>
   </div>
 
-  <!-- Botões de Compra -->
+  <!-- Novos Botões de Compra -->
   <div class="button-container">
-    <a href="https://loja.infinitepay.io/familia-oliveira-doces" class="btn" target="_blank">🛒 Comprar Online</a>
+    <a href="https://loja.infinitepay.io/familia-oliveira-doces" class="btn" target="_blank">
+      <img src="cart_img.png.PNG" alt="Logo Loja Online" style="height:24px; vertical-align:middle; margin-right:8px;"> Comprar Online
+    </a>
+    <a href="https://www.ifood.com.br/delivery/seu-restaurante" class="btn" target="_blank">
+      <img src="ifood.jpg" alt="Logo iFood" style="height:24px; vertical-align:middle; margin-right:8px;"> Comprar no iFood
+    </a>
+  </div>
+
+  <!-- Vídeos -->
+  <div class="video-container">
+    <video src="WhatsApp Video 2025-08-30 at 16.01.11.mp4" muted playsinline></video>
+  </div>
+  <div class="video-container">
+    <video src="WhatsApp Video 2025-08-30 at 16.01.06.mp4" muted playsinline></video>
+  </div>
+  <div class="video-container">
+    <video src="WhatsApp Video 2025-08-30 at 15.59.36.mp4" muted playsinline></video>
+  </div>
+  <div class="video-container">
+    <video src="WhatsApp Video 2025-08-30 at 15.59.26.mp4" muted playsinline></video>
+  </div>
+  <div class="video-container">
+    <video src="WhatsApp Video 2025-08-30 at 15.59.15.mp4" muted playsinline></video>
+  </div>
+  <div class="video-container">
+    <video src="WhatsApp Video 2025-08-30 at 15.59.11.mp4" muted playsinline></video>
   </div>
 
   <script>
-    // Autoplay dos vídeos ao entrar na tela
+    // Autoplay dos vídeos quando aparecem na tela
     const videos = document.querySelectorAll('video');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -99,5 +116,6 @@
 
     videos.forEach(video => observer.observe(video));
   </script>
+
 </body>
 </html>
