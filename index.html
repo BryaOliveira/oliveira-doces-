@@ -1,486 +1,103 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Doces Família Oliveira - Compre Aqui</title>
-<style>
-  /* Seu CSS permanece o mesmo */
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0; padding: 20px;
-    background: #fff8f0;
-    color: #3d2b1f;
-  }
-  header {
-    text-align: center;
-    margin-bottom: 15px;
-  }
-  header img.logo {
-    width: 100%;
-    max-height: 280px;
-    object-fit: cover;
-    margin-bottom: 8px;
-  }
-  .social-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 25px;
-  }
-  .social-buttons a img {
-    width: 40px; height: 40px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-  .social-buttons a img:hover {
-    transform: scale(1.1);
-  }
-  .products {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-  }
-  .product {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    width: 220px;
-    padding: 10px;
-    cursor: pointer;
-    transition: box-shadow 0.3s ease;
-    text-align: center;
-  }
-  .product:hover {
-    box-shadow: 0 0 15px #8B4513;
-  }
-  .product img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 8px;
-  }
-  .product h3 {
-    margin: 0 0 8px;
-    font-size: 1.2em;
-  }
-  .product p {
-    font-size: 0.9em;
-    height: 50px;
-    overflow: hidden;
-    margin-bottom: 10px;
-  }
-  .product .price {
-    font-weight: bold;
-    color: #8B4513;
-    font-size: 1.1em;
-  }
-
-  #cartContainer {
-    position: fixed;
-    top: 80px;
-    right: 20px;
-    background: #fff3e0;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    width: 320px;
-    max-height: 70vh;
-    overflow-y: auto;
-    padding: 15px 20px 20px;
-    display: none;
-    z-index: 999;
-  }
-  #cartHeader {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  #cartHeader img {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-  }
-  #cartHeader h2 {
-    margin: 0;
-    font-size: 1.4em;
-    color: #8B4513;
-  }
-  .cart-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    font-size: 0.95em;
-  }
-  .cart-item span {
-    flex-grow: 1;
-  }
-  .cart-item button {
-    background: #8B4513;
-    border: none;
-    color: white;
-    padding: 4px 8px;
-    margin-left: 6px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  .cart-item button.remove {
-    background: #a33;
-  }
-  #cartTotal {
-    font-weight: bold;
-    font-size: 1.2em;
-    margin-top: 10px;
-    color: #5a2a0c;
-    text-align: right;
-  }
-  #customerForm {
-    margin-top: 20px;
-    background: #fff;
-    padding: 20px 15px;
-    border-radius: 12px;
-    max-width: 320px;
-    margin-left: auto;
-    margin-right: auto;
-    display: none;
-  }
-  #customerForm h2 {
-    color: #8B4513;
-    margin-bottom: 12px;
-  }
-  #customerForm input, #customerForm textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 12px;
-    border-radius: 6px;
-    border: 1px solid #d1bfa1;
-    font-size: 1em;
-    box-sizing: border-box;
-  }
-  #customerForm button {
-    background: #8B4513;
-    color: white;
-    border: none;
-    padding: 10px;
-    font-size: 1.1em;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
-  }
-  #paymentLink {
-    max-width: 320px;
-    margin: 20px auto 0 auto;
-    font-weight: bold;
-    text-align: center;
-    color: #2a662a;
-  }
-
-  #msgAdicionado {
-    display: none;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #dff0d8;
-    color: #3c763d;
-    text-align: center;
-    padding: 12px 25px;
-    font-weight: bold;
-    font-size: 1.1em;
-    z-index: 1100;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #3c763daa;
-  }
-
-  #msgVazio {
-    display: none;
-    position: fixed;
-    top: 80px;
-    right: 20px;
-    background: #fff3e0;
-    color: #8B4513;
-    font-weight: bold;
-    font-size: 1.1em;
-    padding: 15px 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    z-index: 999;
-    max-width: 320px;
-    text-align: center;
-  }
-
-  #botaoCarrinho {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: transparent;
-    border: none;
-    padding: 0;
-    width: 55px;
-    height: 55px;
-    cursor: pointer;
-    z-index: 1000;
-  }
-  #botaoCarrinho img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
-  @media(max-width: 480px) {
-    #cartContainer {
-      position: static;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Família Oliveira Doces</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff8f0;
+      color: #3d2b1f;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background: #8b4513;
+      padding: 10px;
+    }
+    header img {
+      height: 60px;
+      margin: 0 10px;
+      vertical-align: middle;
+    }
+    h1 {
+      margin-top: 20px;
+    }
+    .video-container {
+      max-width: 500px;
+      margin: 20px auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    video {
       width: 100%;
-      max-height: none;
-      margin-bottom: 20px;
-      box-shadow: none;
-      padding: 15px 10px 20px;
+      display: block;
     }
-    #customerForm {
-      max-width: 100%;
+    .button-container {
+      margin: 20px;
     }
-    #botaoCarrinho {
-      top: 15px;
-      right: 15px;
-      width: 50px;
-      height: 50px;
+    .btn {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 20px;
+      font-size: 18px;
+      background-color: #d32f2f;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s;
     }
-  }
-</style>
+    .btn:hover {
+      background-color: #b71c1c;
+    }
+  </style>
 </head>
 <body>
 
-<div id="msgAdicionado" role="alert" aria-live="assertive">
-  Item adicionado ao carrinho!<br>
-  Role a página para baixo para localizar os itens do seu carrinho.
-</div>
-<div id="msgVazio" role="alert" aria-live="polite">Seu carrinho está vazio 😢</div>
+  <header>
+    <!-- Logo iFood -->
+    <img src="ifood.jpg" alt="Logo iFood">
+    <!-- Logo Loja Oliveira -->
+    <img src="cart_img.png" alt="Logo Oliveira Essência Doce">
+  </header>
 
-<audio id="somAdicionado" src="https://www.soundjay.com/buttons/sounds/button-3.mp3" preload="auto"></audio>
+  <h1>Bem-vindo à Família Oliveira Doces</h1>
+  <p>Um pedacinho de carinho em cada pote. Produzidos com amor, tradição e sabor irresistível!</p>
 
-<header>
-  <img src="logo.png.jpeg" alt="Doces Família Oliveira" class="logo" />
-  <h1>Doces de Pote Família Oliveira 🌿</h1>
-  <div class="social-buttons">
-    <a href="https://wa.me/5519997848752" target="_blank" rel="noopener noreferrer"><img src="whatsapp_icon.png" alt="WhatsApp Loja"></a>
-    <a href="https://www.instagram.com/oliveira__doces.gourmet" target="_blank" rel="noopener noreferrer"><img src="instagram_icon.png" alt="Instagram"></a>
+  <!-- Vídeos -->
+  <div class="video-container">
+    <video src="VIDEO1.mp4" muted playsinline></video>
   </div>
-</header>
-
-<h1>Clique no seu pote desejado e adicione ao carrinho ❤️</h1>
-<div class="products" id="products"></div>
-
-<div id="cartContainer" aria-live="polite" aria-label="Conteúdo do carrinho" tabindex="-1">
-  <div id="cartHeader">
-    <img src="carrinho de compras.PNG" alt="Carrinho" />
-    <h2>Seu Carrinho</h2>
+  <div class="video-container">
+    <video src="VIDEO2.mp4" muted playsinline></video>
   </div>
-  <div id="cartItems"></div>
-  <div id="cartTotal">Total: R$ 0.00</div>
+  <div class="video-container">
+    <video src="VIDEO3.mp4" muted playsinline></video>
+  </div>
 
-  <form id="customerForm" aria-label="Formulário para dados de entrega">
-    <h2>Dados para entrega</h2>
-    <input type="text" id="nome" placeholder="Nome completo" required autocomplete="name" />
-    <input type="tel" id="telefone" placeholder="WhatsApp (ex: 5511999999999)" required pattern="[0-9]{10,15}" title="Digite apenas números, ex: 5511999999999" autocomplete="tel" />
-    <textarea id="endereco" placeholder="Endereço de entrega" required rows="3" autocomplete="street-address"></textarea>
-    <button type="submit">Finalizar e Gerar Link de Pagamento</button>
-  </form>
-  <div id="paymentLink" role="region" aria-live="polite"></div>
-</div>
+  <!-- Botões de Compra -->
+  <div class="button-container">
+    <a href="https://loja.infinitepay.io/familia-oliveira-doces" class="btn" target="_blank">🛒 Comprar Online</a>
+  </div>
 
-<!-- Botão flutuante do carrinho -->
-<button id="botaoCarrinho" onclick="toggleCarrinho()" aria-label="Abrir ou fechar carrinho" aria-expanded="false" aria-controls="cartContainer">
-  <img src="car_icon.PNG" alt="Carrinho" />
-</button>
+  <script>
+    // Autoplay dos vídeos ao entrar na tela
+    const videos = document.querySelectorAll('video');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.play();
+        } else {
+          entry.target.pause();
+        }
+      });
+    }, { threshold: 0.5 });
 
-<script>
-const backendURL = 'https://familia-oliveira-doces-de-pote.vercel.app/api/checkout'; 
-// Substitua pelo seu endpoint correto (Vercel ou outro)
-
-// Produtos disponíveis
-const produtos = [
-  { nome: "Doce de Leite com Paçoca", preco: 10.90, descricao: "Sabor cremoso do doce de leite com toque crocante da paçoca.", img: "doce_pacoca.png.jpeg" },
-  { nome: "Mousse de Maracujá Cremoso", preco: 12.00, descricao: "Sobremesa leve, refrescante e saborosa.", img: "mousse_maracuja.png.jpeg" },
-  { nome: "Bolo de Brigadeiro", preco: 12.00, descricao: "Camadas fofinhas de bolo com brigadeiro artesanal.", img: "bolo_brigadeiro.png.jpeg" },
-  { nome: "Bolo de Brigadeiro com Mousse de Maracujá", preco: 12.00, descricao: "Combinação surpreendente de brigadeiro com mousse de maracujá.", img: "bolo_mix.png.jpeg" }
-];
-
-let carrinho = [];
-
-// DOM Elements
-const productsDiv = document.getElementById('products');
-const cartContainer = document.getElementById('cartContainer');
-const cartItemsDiv = document.getElementById('cartItems');
-const cartTotalDiv = document.getElementById('cartTotal');
-const customerForm = document.getElementById('customerForm');
-const paymentLinkDiv = document.getElementById('paymentLink');
-const msgAdicionado = document.getElementById('msgAdicionado');
-const msgVazio = document.getElementById('msgVazio');
-const somAdicionado = document.getElementById('somAdicionado');
-const botaoCarrinho = document.getElementById('botaoCarrinho');
-
-function toggleCarrinho() {
-  const isOpen = cartContainer.style.display === 'block';
-  if (isOpen) {
-    cartContainer.style.display = 'none';
-    msgVazio.style.display = 'none';
-    botaoCarrinho.setAttribute('aria-expanded', 'false');
-  } else {
-    if (carrinho.length === 0) {
-      msgVazio.style.display = 'block';
-      cartContainer.style.display = 'none';
-      setTimeout(() => {
-        msgVazio.style.display = 'none';
-      }, 3000);
-      botaoCarrinho.setAttribute('aria-expanded', 'false');
-    } else {
-      msgVazio.style.display = 'none';
-      atualizarCarrinho();
-      cartContainer.style.display = 'block';
-      cartContainer.focus();
-      botaoCarrinho.setAttribute('aria-expanded', 'true');
-    }
-  }
-}
-
-function mostrarMensagemAdicionado() {
-  msgAdicionado.style.display = 'block';
-  somAdicionado.currentTime = 0;
-  somAdicionado.play();
-  setTimeout(() => {
-    msgAdicionado.style.display = 'none';
-  }, 3000);
-}
-
-function atualizarCarrinho() {
-  cartItemsDiv.innerHTML = '';
-  paymentLinkDiv.innerHTML = '';
-  let total = 0;
-
-  if (carrinho.length === 0) {
-    cartTotalDiv.textContent = 'Total: R$ 0.00';
-    customerForm.style.display = 'none';
-    localStorage.removeItem('carrinho');
-    return;
-  }
-
-  carrinho.forEach((item, idx) => {
-    const itemTotal = item.preco * item.quantidade;
-    total += itemTotal;
-    const div = document.createElement('div');
-    div.className = 'cart-item';
-    div.innerHTML = `
-      <span>${item.quantidade}x ${item.nome} - R$ ${itemTotal.toFixed(2)}</span>
-      <button onclick="removerItem(${idx})" class="remove" aria-label="Remover item ${item.nome}">X</button>
-      <button onclick="alterarQuantidade(${idx}, -1)" aria-label="Diminuir quantidade de ${item.nome}">-</button>
-      <button onclick="alterarQuantidade(${idx}, 1)" aria-label="Aumentar quantidade de ${item.nome}">+</button>
-    `;
-    cartItemsDiv.appendChild(div);
-  });
-
-  cartTotalDiv.textContent = `Total: R$ ${total.toFixed(2)}`;
-  customerForm.style.display = 'block';
-
-  localStorage.setItem('carrinho', JSON.stringify(carrinho));
-}
-
-function removerItem(idx) {
-  carrinho.splice(idx, 1);
-  atualizarCarrinho();
-}
-
-function alterarQuantidade(idx, delta) {
-  carrinho[idx].quantidade += delta;
-  if (carrinho[idx].quantidade <= 0) {
-    removerItem(idx);
-  } else {
-    atualizarCarrinho();
-  }
-}
-
-function adicionarProduto(idx) {
-  const produto = produtos[idx];
-  const existente = carrinho.find(p => p.nome === produto.nome);
-  if (existente) {
-    existente.quantidade++;
-  } else {
-    carrinho.push({ nome: produto.nome, preco: produto.preco, quantidade: 1 });
-  }
-  atualizarCarrinho();
-  mostrarMensagemAdicionado();
-  cartContainer.style.display = 'block';
-  botaoCarrinho.setAttribute('aria-expanded', 'true');
-}
-
-produtos.forEach((produto, idx) => {
-  const div = document.createElement('div');
-  div.className = 'product';
-  div.title = produto.descricao;
-  div.innerHTML = `
-    <img src="${produto.img}" alt="${produto.nome}" />
-    <h3>${produto.nome}</h3>
-    <p>${produto.descricao}</p>
-    <div class="price">R$ ${produto.preco.toFixed(2)}</div>
-  `;
-  div.onclick = () => adicionarProduto(idx);
-  productsDiv.appendChild(div);
-});
-
-// Carregar carrinho do localStorage
-document.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('carrinho');
-  if (saved) {
-    carrinho = JSON.parse(saved);
-    atualizarCarrinho();
-  }
-});
-
-customerForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const nome = document.getElementById('nome').value.trim();
-  const telefone = document.getElementById('telefone').value.trim();
-  const endereco = document.getElementById('endereco').value.trim();
-
-  if (!nome || !telefone || !endereco) {
-    alert('Por favor, preencha todos os dados para entrega.');
-    return;
-  }
-
-  const total = carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
-
-  const payload = {
-    carrinho,
-    cliente: { nome, telefone, endereco },
-    total
-  };
-
-  try {
-    const response = await fetch(backendURL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    const data = await response.json();
-
-    if (response.ok && data.link) {
-      paymentLinkDiv.innerHTML = `
-        <p>Pagamento gerado com sucesso!</p>
-        <p><a href="${data.link}" target="_blank" rel="noopener noreferrer" aria-label="Link para pagamento">Clique aqui para pagar</a></p>
-      `;
-      carrinho = [];
-      atualizarCarrinho();
-      customerForm.reset();
-      customerForm.style.display = 'none';
-    } else {
-      paymentLinkDiv.textContent = 'Erro ao gerar link: ' + (data.error || JSON.stringify(data));
-    }
-  } catch (error) {
-    paymentLinkDiv.textContent = 'Erro na comunicação com o servidor: ' + error.message;
-  }
-});
-</script>
+    videos.forEach(video => observer.observe(video));
+  </script>
 </body>
 </html>
